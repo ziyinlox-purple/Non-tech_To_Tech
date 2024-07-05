@@ -26,7 +26,6 @@ $(w_a(X),w_b(X),w_c(X))$ 是预先定义的权重多项式，它们表示电路�
 
 ![表1](/ZKP-PLONK/images/PLONK多项式编程/表1.png)
 
-表1
 
 其次，变成多项式还有一个天生自带的 buff，假设矩阵 $W$ 的表格可以成功地只用多项式来表示，当 Verifier 进行验证的时候，Verifier 并不需要验证所有域上的点，就可以成功验证电路的正确性。
 
@@ -36,10 +35,8 @@ $(w_a(X),w_b(X),w_c(X))$ 是预先定义的权重多项式，它们表示电路�
 2. 通过多项式编码的方式，将这 3×100 的表压缩成三个多项式 $σa(X),σb(X),σc(X)$。这些多项式可以通过某种方式（例如拉格朗日插值）从原始约束中构造出来。
 3. Verifier 只需要检查这三个多项式在某一个随机点 $X=z$ 上是否满足约束条件。具体来说，Verifier 会检查：
 
-$$ 
-
-*σa*(*z*)⋅*σb*(*z*)=*σc*(*z*)
-
+$$
+\sigma_a(z)⋅\sigma_b(z)=\sigma_c(z)
 $$
 
 如果这个等式在随机点 $z$ 上成立，那么可以高度概率地认为 3×100 这个表里的内容在整个域上都是成立的。
@@ -48,7 +45,6 @@ $$
 
 ![表1](ZKP-PLONK/images/PLONK多项式编程)
 
-表1
 
 还是以 表1 为例，假设目前表格只有 3*3 ，那么表格中给出的插值点 i 及其对应的值如下：
 
@@ -63,9 +59,7 @@ $$
 对于每个 i，拉格朗日基函数 ${l_i}{(X)}$ 的定义是：
 
 $$
-
 {l_i}{(X)}=\prod_{j\neq i}^{} \frac{X-j}{i-j} 
-
 $$
 
 具体到插值点：i = 1,2,3，我们分别求出 ${l_1}{(X)},{l_2}{(X)},{l_3}{(X)}$，
@@ -73,25 +67,19 @@ $$
 - 对于 i = 1，
 
 $$
-
 {l_1}{(X)}=\frac{(X-2)(X-3)}{(1-2)(1-3)} =\frac{(X-2)(X-3)}{2} 
-
 $$
 
 - 对于 i = 2，
 
 $$
-
-{l_2}{(X)}=\frac{(X-1)(X-3)}{(2-1)(2-3)} =-(X-1)(X-3)
-
+{l_2}{(X)}=\frac{(X-1)(X-3)}{(2-1)(2-3)} = -(X-1)(X-3)
 $$
 
 - 对于 i = 3，
 
 $$
-
 {l_3}{(X)}=\frac{(X-1)(X-2)}{(3-1)(3-2)} =\frac{(X-1)(X-2)}{2} 
-
 $$
 
 接下来，结合 表1 中的内容，和上面已经求出的对应 i 的拉格朗日基函数**，**我们**开始构造插值多项式：**
@@ -99,56 +87,44 @@ $$
 对于 $w_a$
 
 $$
-
 \sigma_a(X)=x_5 \cdot l_1(X)+x_1 \cdot l_2(X) +x_3 \cdot l_3(X)
-
 $$
 
 代入 ${l_1}(X)$，
 
 $$
-
 \begin{align}
 \sigma_a(X) & = x_5 \cdot l_1(X)+x_1 \cdot l_2(X) +x_3 \cdot l_3(X) & \\ &
 = x_5 \cdot \frac{(X-2)(X-3)}{2} - x_1 \cdot(X-1)(X-3)+x_3 \cdot\frac{(X-1)(X-2)}{2}
 \end{align}
-
 $$
 
 对于 $w_b$
 
 $$
-
 \sigma_b(X)=x_6 \cdot l_1(X)+x_2 \cdot l_2(X) +x_4 \cdot l_3(X)
-
 $$
 
 代入 ${l_2}(X)$，
 
 $$
-
 \begin{align}
 \sigma_b(X) & = x_6 \cdot l_1(X)+x_2 \cdot l_2(X) +x_4 \cdot l_3(X)\\ &
 = x_6 \cdot \frac{(X-2)(X-3)}{2} - x_2 \cdot (X-1)(X-3) +x_4 \cdot \frac{(X-1)(X-2)}{2}
 \end{align}
-
 $$
 
 对于 $w_c$
 
 $$
-
 \sigma_c(X)=out \cdot l_1(X)+x_5 \cdot l_2(X) +x_6 \cdot l_3(X)
-
 $$
 
 $$
-
 \begin{align}
 \sigma_c(X) & = out \cdot l_1(X)+x_5 \cdot l_2(X) +x_6 \cdot l_3(X)\\ &
 = out \cdot \frac{(X-2)(X-3)}{2} - x_5 \cdot (X-1)(X-3) +x_6 \cdot \frac{(X-1)(X-2)}{2}
 \end{align}
-
 $$
 
 构造插值多项式结束以后，如果你想检查所得的 $\sigma_c(X)$ 是否对应表内的值，我们可以代入 X 的值进行验证，比如：
@@ -156,34 +132,28 @@ $$
 - 当 X=1 的时候，看 $\sigma_c(1)$ 是否 = out ，计算过程如下：
 
 $$
-
 \begin{align}
 \sigma_c(1) & = out \cdot \frac{(1-2)(1-3)}{2} - x_5 \cdot (1-1)(1-3) +x_6 \cdot \frac{(1-1)(1-2)}{2} \\&
 = out
 \end{align}
-
 $$
 
 - 当 X=2 的时候，看 $\sigma_c(2)$ 是否 = $x_5$ ，计算过程如下：
 
 $$
-
 \begin{align}
 \sigma_c(2) & = out \cdot \frac{(2-2)(2-3)}{2} - x_5 \cdot (2-1)(2-3) +x_6 \cdot \frac{(2-1)(2-2)}{2} \\&
 = x_5
 \end{align}
-
 $$
 
 - 当 X=3 的时候，看 $\sigma_c(3)$ 是否 = $x_6$ ，计算过程如下：
 
 $$
-
 \begin{align}
 \sigma_c(3) & = out \cdot \frac{(3-2)(3-3)}{2} - x_5 \cdot (3-1)(3-3) +x_6 \cdot \frac{(3-1)(3-2)}{2} \\&
 = x_6
 \end{align}
-
 $$
 
 同样可以验证 $\sigma_a(X)$ 和 $\sigma_b(X)$。
@@ -194,12 +164,11 @@ $$
 
 增加 i=1.5 的情况，如表3
 
-![Group 143724607.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/eefc8c39-e4fd-44c9-b56e-b7fb5a02f2be/efa144ba-7731-40ca-a1ca-b4dabd354daf/Group_143724607.png)
+![表3](/ZKP-PLONK/images/PLONK多项式编程/表3.png)
 
 我们可以计算一下：
 
 $$
-
 \begin{align}
 \sigma_c(1.5) & = out \cdot \frac{(1.5-2)(1.5-3)}{2} - x_5 \cdot (1.5-1)(1.5-3) +x_6 \cdot \frac{(1.5-1)(1.5-2)}{2} \\&
 =  0.375 out+0.75x_5-0.125x_6
