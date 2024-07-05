@@ -43,7 +43,7 @@ $$
 
 我们结合实例再看一遍，看看具体是怎么进行计算的：
 
-![表1](ZKP-PLONK/images/PLONK多项式编程)
+![表1](/ZKP-PLONK/images/PLONK多项式编程/表1.png)
 
 
 还是以 表1 为例，假设目前表格只有 3*3 ，那么表格中给出的插值点 i 及其对应的值如下：
@@ -94,8 +94,7 @@ $$
 
 $$
 \begin{align}
-\sigma_a(X) & = x_5 \cdot l_1(X)+x_1 \cdot l_2(X) +x_3 \cdot l_3(X) & \\ &
-= x_5 \cdot \frac{(X-2)(X-3)}{2} - x_1 \cdot(X-1)(X-3)+x_3 \cdot\frac{(X-1)(X-2)}{2}
+\sigma_a(X) & = x_5 \cdot l_1(X)+x_1 \cdot l_2(X) +x_3 \cdot l_3(X) & \\ & = x_5 \cdot \frac{(X-2)(X-3)}{2} - x_1 \cdot(X-1)(X-3)+x_3 \cdot\frac{(X-1)(X-2)}{2}
 \end{align}
 $$
 
@@ -109,8 +108,7 @@ $$
 
 $$
 \begin{align}
-\sigma_b(X) & = x_6 \cdot l_1(X)+x_2 \cdot l_2(X) +x_4 \cdot l_3(X)\\ &
-= x_6 \cdot \frac{(X-2)(X-3)}{2} - x_2 \cdot (X-1)(X-3) +x_4 \cdot \frac{(X-1)(X-2)}{2}
+\sigma_b(X) & = x_6 \cdot l_1(X)+x_2 \cdot l_2(X) +x_4 \cdot l_3(X)\\ & = x_6 \cdot \frac{(X-2)(X-3)}{2} - x_2 \cdot (X-1)(X-3) +x_4 \cdot \frac{(X-1)(X-2)}{2}
 \end{align}
 $$
 
@@ -122,8 +120,7 @@ $$
 
 $$
 \begin{align}
-\sigma_c(X) & = out \cdot l_1(X)+x_5 \cdot l_2(X) +x_6 \cdot l_3(X)\\ &
-= out \cdot \frac{(X-2)(X-3)}{2} - x_5 \cdot (X-1)(X-3) +x_6 \cdot \frac{(X-1)(X-2)}{2}
+\sigma_c(X) & = out \cdot l_1(X)+x_5 \cdot l_2(X) +x_6 \cdot l_3(X)\\ & = out \cdot \frac{(X-2)(X-3)}{2} - x_5 \cdot (X-1)(X-3) +x_6 \cdot \frac{(X-1)(X-2)}{2}
 \end{align}
 $$
 
@@ -133,8 +130,7 @@ $$
 
 $$
 \begin{align}
-\sigma_c(1) & = out \cdot \frac{(1-2)(1-3)}{2} - x_5 \cdot (1-1)(1-3) +x_6 \cdot \frac{(1-1)(1-2)}{2} \\&
-= out
+\sigma_c(1) & = out \cdot \frac{(1-2)(1-3)}{2} - x_5 \cdot (1-1)(1-3) +x_6 \cdot \frac{(1-1)(1-2)}{2} \\ & = out
 \end{align}
 $$
 
@@ -142,8 +138,7 @@ $$
 
 $$
 \begin{align}
-\sigma_c(2) & = out \cdot \frac{(2-2)(2-3)}{2} - x_5 \cdot (2-1)(2-3) +x_6 \cdot \frac{(2-1)(2-2)}{2} \\&
-= x_5
+\sigma_c(2) & = out \cdot \frac{(2-2)(2-3)}{2} - x_5 \cdot (2-1)(2-3) +x_6 \cdot \frac{(2-1)(2-2)}{2} \\ & = x_5
 \end{align}
 $$
 
@@ -151,14 +146,13 @@ $$
 
 $$
 \begin{align}
-\sigma_c(3) & = out \cdot \frac{(3-2)(3-3)}{2} - x_5 \cdot (3-1)(3-3) +x_6 \cdot \frac{(3-1)(3-2)}{2} \\&
-= x_6
+\sigma_c(3) & = out \cdot \frac{(3-2)(3-3)}{2} - x_5 \cdot (3-1)(3-3) +x_6 \cdot \frac{(3-1)(3-2)}{2} \\ & = x_6
 \end{align}
 $$
 
 同样可以验证 $\sigma_a(X)$ 和 $\sigma_b(X)$。
 
-如果验证通过，那么非常好，说明我们的式子计算没有问题，前置工作准备结束。接下来，**我们可以带入未知点进行插值检测，**比如我取一个随机值，让 X=1.5（其实无论是 i 和 X 都是在同一个[0,100]的范围里，然而 i 是索引，是已知的条件，借助 i 我们可以构造拉格朗日插值多项式，从而让也在同一个范围内的随机值 X 得以代入验证）。
+如果验证通过，那么非常好，说明我们的式子计算没有问题，前置工作准备结束。接下来，**我们可以带入未知点进行插值检测**，比如我取一个随机值，让 X=1.5（其实无论是 i 和 X 都是在同一个[0,100]的范围里，然而 i 是索引，是已知的条件，借助 i 我们可以构造拉格朗日插值多项式，从而让也在同一个范围内的随机值 X 得以代入验证）。
 
 换句话来说，在原来的 表1 中，我们是没有 i=1.5 这一行的，这是因为我们在计算的时候所看到的视图内容不同，实际上是存在 i=1.5 这一行，只是我们看不见，需要 Verifier 和 Prover 交互，这也是我们构建拉格朗日插值多项式的意义。我们通过已有的 i=1,2,3 构造了拉格朗日插值多项式，之后我们计算范围内任意 X 处多项式的值，最后再把这个计算出的值进行对照。如果随机的这一次挑战检查 X 处计算的值没有问题，那么说明这个范围内的值都没有问题，Prover 没有作弊。
 
@@ -170,30 +164,12 @@ $$
 
 $$
 \begin{align}
-\sigma_c(1.5) & = out \cdot \frac{(1.5-2)(1.5-3)}{2} - x_5 \cdot (1.5-1)(1.5-3) +x_6 \cdot \frac{(1.5-1)(1.5-2)}{2} \\&
-=  0.375 out+0.75x_5-0.125x_6
+\sigma_c(1.5) & = out \cdot \frac{(1.5-2)(1.5-3)}{2} - x_5 \cdot (1.5-1)(1.5-3) +x_6 \cdot \frac{(1.5-1)(1.5-2)}{2} \\ & = 0.375 out+0.75x_5-0.125x_6
 \end{align}
-
 $$
 
-- latex
-    
-    \begin{array}{c|c|c|c|}
-    \texttt{i} & {w_a} & {w_b} & {w_c}  \\
-    \hline
-    \texttt{1} & x_5 & x_6 & out \\
-    \texttt{2} & x_1 & x_2 & x_5 \\
-    \texttt{3} & x_3 & x_4 & x_6 \\
-    \\
-    \texttt{...} & ... & ... & ... \\
-    \\
-    \texttt{100} & ... & ... & ... \\
-    \end{array}
-    
+![表2](/ZKP-PLONK/images/PLONK多项式编程/表2.png)
 
-![表2](https://prod-files-secure.s3.us-west-2.amazonaws.com/eefc8c39-e4fd-44c9-b56e-b7fb5a02f2be/a7356a41-a092-45ab-80fb-e847291f6a66/QianJianTec1720176061860.png)
-
-表2
 
 上图（表2）是在表1 的基础之上做了扩展，从表1 的 3*3，变成 3*100。
 
