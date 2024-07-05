@@ -24,7 +24,6 @@ $(w_a(X),w_b(X),w_c(X))$ 是预先定义的权重多项式，它们表示电路�
 
 因此，可以用一个/若干的多项式去编码三列，把 3*100 的表，变成 3 个多项式来表示。（这点可以结合 excel 表格计算公式来理解，很类似）
 
-![表1](/ZKP-PLONK/images/PLONK多项式编程/表1.png)
 <img src="/ZKP-PLONK/images/PLONK多项式编程/表1.png" width="40%" />
 
 
@@ -44,7 +43,6 @@ $$
 
 我们结合实例再看一遍，看看具体是怎么进行计算的：
 
-![表1](/ZKP-PLONK/images/PLONK多项式编程/表1.png)
 <img src="/ZKP-PLONK/images/PLONK多项式编程/表1.png" width="60%" />
 
 还是以 表1 为例，假设目前表格只有 3*3 ，那么表格中给出的插值点 i 及其对应的值如下：
@@ -159,7 +157,6 @@ $$
 
 增加 i=1.5 的情况，如表3
 
-![表3](/ZKP-PLONK/images/PLONK多项式编程/表3.png)
  <img src="/ZKP-PLONK/images/PLONK多项式编程/表3.png" width="40%" />
 
 
@@ -172,7 +169,6 @@ $$
 \end{align}
 $$
 
-![表2](/ZKP-PLONK/images/PLONK多项式编程/表2.png)
 <img src="/ZKP-PLONK/images/PLONK多项式编程/表2.png" width="40%" />
 
 上图（表2）是在表1 的基础之上做了扩展，从表1 的 3*3，变成 3*100。
