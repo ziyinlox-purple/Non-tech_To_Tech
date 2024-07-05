@@ -24,7 +24,7 @@ $(w_a(X),w_b(X),w_c(X))$ 是预先定义的权重多项式，它们表示电路�
 
 因此，可以用一个/若干的多项式去编码三列，把 3*100 的表，变成 3 个多项式来表示。（这点可以结合 excel 表格计算公式来理解，很类似）
 
-![表1](https://prod-files-secure.s3.us-west-2.amazonaws.com/eefc8c39-e4fd-44c9-b56e-b7fb5a02f2be/0c128d2d-c4ac-412e-93ff-9e39b3401f7e/Untitled.png)
+![表1](/ZKP-PLONK/images/PLONK多项式编程/表1.png)
 
 表1
 
