@@ -279,12 +279,10 @@ $$
 所以我们可以得到两个等式，符合最初的电路约束关系：
 
 $$
-\begin{align}
-
-(x_1+x_2)\cdot x_6 & = out \\
-x_3\cdot x_4 & = x_6
-
-\end{align}
+\begin{array}{c}
+(x_1+x_2)\cdot x_6 = out \\
+x_3\cdot x_4 = x_6
+\end{array}
 $$
 
 表明电路的输入输出值无误。
