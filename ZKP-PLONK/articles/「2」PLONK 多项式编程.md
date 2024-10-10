@@ -30,7 +30,7 @@ $(w_a(X),w_b(X),w_c(X))$ 是预先定义的权重多项式，它们表示电路�
 
 因此，可以用一个/若干的多项式去编码三列，把 3×100 的表，变成 3 个多项式来表示。（这点可以结合 excel 表格计算公式来理解，很类似）
 
-<img src="/ZKP-PLONK/images/PLONK多项式编程/表1-1.png" width="40%" />
+<img src="/ZKP-PLONK/images/「2」PLONK多项式编程/表1-1.png" width="40%" />
 「表1-1」
 
 
@@ -52,7 +52,7 @@ $$
 
 我们结合实例再看一遍，看看具体是怎么进行计算的：
 
-<img src="/ZKP-PLONK/images/PLONK多项式编程/表1-1.png" width="40%" />
+<img src="/ZKP-PLONK/images/「2」PLONK多项式编程/表1-1.png" width="40%" />
 「表1-1」
 
 </br>
@@ -172,13 +172,13 @@ $$
 
 **总结一下**，上面那么多内容其实就是做了这样一项工作：根据拉格朗日插值法，通过「表1-1」里已知的关系构造出「表2」
 
-<img src="/ZKP-PLONK/images/PLONK多项式编程/表1-1.png" width="40%" />
+<img src="/ZKP-PLONK/images/「2」PLONK多项式编程/表1-1.png" width="40%" />
 「表1-1」
 
-<img src="/ZKP-PLONK/images/PLONK多项式编程/表1-2.png" width="40%" />
+<img src="/ZKP-PLONK/images/「2」PLONK多项式编程/表1-2.png" width="40%" />
 「表1-2」
 
-<img src="/ZKP-PLONK/images/PLONK多项式编程/表2.png" width="70%" />
+<img src="/ZKP-PLONK/images/「2」PLONK多项式编程/表2.png" width="70%" />
 「表2」
 
 其中，在「表1-1」中，定义域是 $i\in {1,2,3}$，看「表1-2」会更加清晰；而在 $\sigma_a(X)$ 的插值多项式中，定义域就会变得更大，插值多项式的构建其实也间接完成了扩域（后面会详细讲述），所以我们可以代入不仅限于 「表2」中的 X={1,2,3} 的示例。
