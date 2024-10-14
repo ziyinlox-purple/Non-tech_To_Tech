@@ -8,7 +8,7 @@
 
 如下图所示，有这样的一个案例电路：
 
-<img src="/ZKP-PLONK/images/「1」PLONK算数化/图：电路1.png" width="40%" />
+<img src="/ZKP-PLONK/images/「1」PLONK算术化/图：电路1.png" width="40%" />
 「图：电路1」
 
 
@@ -30,7 +30,7 @@
 从「图1：电路1」中，我们可以找到里面对应的数学关系，也就是**这个电路要成立必须要满足的约束关系**：
 
 
-<img src="/ZKP-PLONK/images/「1」PLONK算数化/图2:约束关系.png" width="20%" />
+<img src="/ZKP-PLONK/images/「1」PLONK算术化/图2:约束关系.png" width="20%" />
 「图2:约束关系」
 
 有了电路具体的约束关系后，我们可以将其中的关系**转换成「矩阵」，这个矩阵可以用表格**的形式来呈现，从而方便后续的计算。
@@ -39,7 +39,7 @@
 
 首先，我们可以定义一个矩阵 $W\in\mathbb{F}^{n\times 3}$ （不必管  $\mathbb{F}$ 到底是什么，只需要知道是在一定的范围内就可以； $n$ 为算数门的数量，对应为行；3 表示多项式变量名的数量，对应为列）来表示约束。「图2-约束关系」就可以表示为：
 
-<img src="/ZKP-PLONK/images/「1」PLONK算数化/图3.png" width="30%" />
+<img src="/ZKP-PLONK/images/「1」PLONK算术化/图3.png" width="30%" />
 「图3」
 
 💡 注：其中 「i」是表示电路中每个门的索引，从 1 开始逐行递增。它用来标识电路的每个门的位置。
@@ -63,7 +63,7 @@ $$
 左输入+右输入+乘法项+常数−输出=0
 
 这样有助于简化证明系统的构建和验证过程。例如在后续构建约束矩阵 $Q$ 的时候有选择器多项式的系数选择问题，办法其实很简单，只需要对应固定等式的算术关系即可，不需要进行符号的变换，可参考「图4:矩阵 $Q\in\mathbb{F}^{n\times5}$」部分。
-<img src="/ZKP-PLONK/images/「1」PLONK算数化/图4.png" width="40%" />
+<img src="/ZKP-PLONK/images/「1」PLONK算术化/图4.png" width="40%" />
 「图4：矩阵 $Q\in\mathbb{F}^{n\times5}$」
 
 
@@ -87,7 +87,7 @@ $$
 
 具体的约束关系已经有了，即「图2:约束关系」，所以接下来我们根据这些约束来构建选择器多项式。
 
-<img src="/ZKP-PLONK/images/「1」PLONK算数化/图2:约束关系.png" width="20%" />
+<img src="/ZKP-PLONK/images/「1」PLONK算术化/图2:约束关系.png" width="20%" />
 「图2:约束关系」
 
 **具体要怎么构建呢？**
@@ -130,7 +130,7 @@ $$
 
 我们可以对上面已经选择的选择器的值进行验证，如果将上面这些系数代入到 $q_L \circ w_a + q_R \circ w_b + q_M\circ(w_a\cdot w_b) + q_C -  q_O\circ w_c = 0$ 中进行验算，比如上面这个这些系数选择代入，我们就能得到 
 
-<img src="/ZKP-PLONK/images/「1」PLONK算数化/计算过程1-1.png" width="40%" />
+<img src="/ZKP-PLONK/images/「1」PLONK算术化/计算过程1-1.png" width="40%" />
 「图：计算过程1-1」
 
 💡 注： $\circ$ 特指 Hadamard product，任何矩阵与零矩阵做哈达玛积结果仍然是零矩阵
@@ -139,7 +139,7 @@ $$
 再代入「图2:约束关系」中的具体值：
 
 
-<img src="/ZKP-PLONK/images/「1」PLONK算数化/计算过程1-2.png" width="40%" />
+<img src="/ZKP-PLONK/images/「1」PLONK算术化/计算过程1-2.png" width="40%" />
 「图：计算过程1-2」
 
 ---
@@ -158,7 +158,7 @@ $q_L$=0， $q_R$=0， $q_M$=1， $q_C$=0， $q_O$=1。
 
 现在把上面的这些数据整理起来，像 $W$ 一样，我们还是用表格的形式来表示约束矩阵 $Q\in\mathbb{F}^{n\times5}$（ $n$ 算数门的数量，对应为行；5 表示选择器多项式的数量，即 $q_L$ ··· $q_O$ 对应为列）。
 
-<img src="/ZKP-PLONK/images/「1」PLONK算数化/图4.png" width="40%" />
+<img src="/ZKP-PLONK/images/「1」PLONK算术化/图4.png" width="40%" />
 「图4」
 
 重点来了！
@@ -171,20 +171,20 @@ $$
 
 如果把上面的等式代入并展开，我们可以得到下面的约束等式：
 
-<img src="/ZKP-PLONK/images/「1」PLONK算数化/图5.png" width="40%" />
+<img src="/ZKP-PLONK/images/「1」PLONK算术化/图5.png" width="40%" />
 「图5」
 
 
 具体的计算过程，化简后得：
 
-<img src="/ZKP-PLONK/images/「1」PLONK算数化/图6:化简过程.png" width="40%" />
+<img src="/ZKP-PLONK/images/「1」PLONK算术化/图6:化简过程.png" width="40%" />
 「图6:化简过程」
 
 
-<img src="/ZKP-PLONK/images/「1」PLONK算数化/图7:化简后.png" width="30%" />
+<img src="/ZKP-PLONK/images/「1」PLONK算术化/图7:化简后.png" width="30%" />
 「图7:化简后」
 
-<img src="/ZKP-PLONK/images/「1」PLONK算数化/图2:约束关系.png" width="20%" />
+<img src="/ZKP-PLONK/images/「1」PLONK算术化/图2:约束关系.png" width="20%" />
 「图2:约束关系」
 
 耶！太棒啦！我们证明啦！因为可以看到「图7:化简后」和一开始「图2:约束关系」的是一致的。化简后的结果正好是三个计算门的计算关系。
@@ -200,19 +200,19 @@ $$
 
 比较下面两个电路，它们能构成的 $Q$ 矩阵完全相同，但它们的电路结构却完全不同。
 
-<img src="/ZKP-PLONK/images/「1」PLONK算数化/图8:电路比较.png" width="70%" />
+<img src="/ZKP-PLONK/images/「1」PLONK算术化/图8:电路比较.png" width="70%" />
 「图8:电路比较」
 
 两个电路的区别在于： $x_5, x_6$ 是否被接入了 `#1` 号门。
 
 结合图8 和 图9 一起来看，如果让 Prover 直接把电路赋值填入矩阵 $W$ 中，一个「诚实的」Prover 会在 $w_{a,1}$ （第一行第一个）和 $w_{c,2}$（第二行第三个） 两个位置填上相同的值；而一个「恶意的」Prover 完全可以填上不同的值。如果恶意的 Prover 在 $w_{b,1}$ 和 $w_{c,3}$ 也填入不同的值，那么实际上 Prover 证明的是上图右边的电路，而非是和 Verifier 共识过的电路(左边)。
 
-<img src="/ZKP-PLONK/images/「1」PLONK算数化/图9.png" width="20%" />
+<img src="/ZKP-PLONK/images/「1」PLONK算术化/图9.png" width="20%" />
 「图9」
 
 为了防止「恶意的」 Prover 作恶，我们需要增加新的约束，强制要求右边电路图中 $x_5=x_7$ 和 $x_6=x_8$，见图10。这等价于我们要求 Prover 把同一个变量填入表格多个位置时，**必须填入相等的值**。
 
-<img src="/ZKP-PLONK/images/「1」PLONK算数化/图10：新的约束关系.png" width="40%" />
+<img src="/ZKP-PLONK/images/「1」PLONK算术化/图10：新的约束关系.png" width="40%" />
 「图10：新的约束关系」
 
 这就需要一类新的约束——「拷贝约束」，即 Copy Constraint。Plonk 采用「置换证明」保证矩阵 $W$ 中多个位置上的值满足拷贝关系。我们继续用 图9 这个电路图的案例来说明其基本思路：
@@ -257,7 +257,7 @@ $$
 
   在描述中， $j(w_i,j) $ 表示元素 $w_i$ 被交换到了新的位置 $j$。
 
-<img src="/ZKP-PLONK/images/「1」PLONK算数化/图11.png" width="40%" />
+<img src="/ZKP-PLONK/images/「1」PLONK算术化/图11.png" width="40%" />
 
 
 - **上图解析：**
