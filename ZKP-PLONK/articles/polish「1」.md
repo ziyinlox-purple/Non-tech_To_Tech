@@ -375,6 +375,9 @@ $$
 
 前面说到只构建约束矩阵 $Q$ 和 赋值矩阵 $W$ 是不足以精确描述「图：电路1」的例子电路，但是现在加上表示位置变换的 $\vec\sigma$ ，它们可以共同描述和验证电路。整个电路可以描述为 $(Q,\sigma)$ ，电路的赋值为 $W$
 
+<img src="/ZKP-PLONK/images/polish「1」.md/矩阵.png" width="80%" />
+
+
 $$
 \mathsf{Plonkish}_0 \triangleq (Q, \sigma; W)
 $$
