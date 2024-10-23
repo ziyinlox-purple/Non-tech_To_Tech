@@ -9,7 +9,7 @@ Plonkish 算术化是 Plonk 证明系统特有的算术化方法，在 Plonkish 
 # Plonkish算术门
 首先，我们先了解电路的基本构成，看看静态下的空白电路有哪些组成部分，我们可以看下图的案例电路：
 
-<img src="/ZKP-PLONK/images/「1」PLONK算术化/图：电路1.png" width="40%" />
+<img src="/ZKP-PLONK/images/polish「1」.md/案例电路.png" width="40%" />
 
 上图由几部分构成：算术门、左右输入引脚、输出引脚和引线。
 
@@ -288,7 +288,11 @@ $$
 
 两个电路的区别在于： $x_5, x_6$ 是否被接入了 `#1` 号门。
 
+<<<<<<< HEAD
+<img src="/ZKP-PLONK/images/polish「1」.md/W.png" width="40%" />
+=======
 <img src="/ZKP-PLONK/images/polish「1」.md/W.png" width="30%" />
+>>>>>>> 49e1b9310d7fa5e8a7cc6b0a1532b96744b64839
 
 结合上面的电路比较图和矩阵 $W$ 一起来看，如果让 Prover 直接把电路赋值填入矩阵 $W$ 中，一个「诚实的」Prover 会在 $w_(a,1)$ （表示 $i=1$ 行， $w_a$ 列，也就是在第一行第一列）和 $w_(c,2)$（表示 $i=2$ 行， $w_c$ 列，也就是在第二行第三列） 的两个位置填上相同的值；而一个「恶意的」Prover 完全可以填上不同的值。如果恶意的 Prover 在 $w_(b,1)$ 和 $w_(c,3)$ 也填入不同的值，那么实际上 Prover 证明的是上图右边的电路，而非是和 Verifier 共识过的电路(左边)，「恶意的」Prover 填写不同值的情况：
 
@@ -308,7 +312,11 @@ $$
 
 这就需要一类新的约束——「拷贝约束」，即 Copy Constraint。Plonk 采用「置换证明」保证矩阵 $W$ 中多个位置上的值满足拷贝关系。我们继续用上面这个电路图的案例来说明其基本思路：
 
+<<<<<<< HEAD
+<img src="/ZKP-PLONK/images/polish「1」.md/W.png" width="40%" />
+=======
 <img src="/ZKP-PLONK/images/polish「1」.md/W.png" width="30%" />
+>>>>>>> 49e1b9310d7fa5e8a7cc6b0a1532b96744b64839
 
 设想我们把 $W$ 表格中的所有位置索引排成一个向量：
 
@@ -344,7 +352,11 @@ $$
 
 **那么如何描述电路赋值表格中的交换操作呢？** 我们只需要记录 $\vec{\sigma}$ 即可，记录了变量在交换操作后的映射关系，也就是说，原先位置的变量经过交换后，被映射到新的位置。通过这种方式，我们只需要记录这个置换向量 ${\vec\sigma}$，就可以描述整个交换操作的结果。 $\vec{\sigma}$ 可以写成表格的形式，从而理解它的位置变化：
 
+<<<<<<< HEAD
+<img src="/ZKP-PLONK/images/polish「1」.md/位置矩阵T.png" width="40%" />
+=======
 <img src="/ZKP-PLONK/images/polish「1」.md/位置矩阵T.png" width="30%" />
+>>>>>>> 49e1b9310d7fa5e8a7cc6b0a1532b96744b64839
 
 > 让我们来说明一下上面这个位置矩阵表示的意思：  
 
