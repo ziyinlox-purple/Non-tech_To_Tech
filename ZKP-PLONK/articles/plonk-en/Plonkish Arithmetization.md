@@ -62,7 +62,7 @@ $$
 > `Left input + Right input + Multiplication term + Constant − Output = 0`,
 > which helps simplify the construction and verification process of the proof system. For example, when constructing the constraint matrix $Q$, the coefficients of the selector vectors can be easily determined by this fixed arithmetic relationship, without adjusting signs. You can refer to the matrix $Q\in\mathbb{F}^{n\times5}$ below for an example.
 
-<img src="/ZKP-PLONK/images/polish「1」.md/矩阵%20Q.png" width="35%" />
+<img src="/ZKP-PLONK/images/Plonkish Arithmetization/Q.png" width="35%" />
 
 In the fixed constraint equation above:
 
@@ -90,9 +90,9 @@ Step one: move all constraints to one side of the equation, so:
 - Gate `#3`: The constraint $x_5 \cdot x_6 = out$ becomes $x_5 \cdot x_6 - out=0$.
 
 > Why move everything to one side of the equation?
-1. It standardizes all constraint equations into the form $f(x) = 0$, simplifying the process of handling and verifying these equations.
-2. It clarifies the role and coefficients of each selector polynomial, avoiding confusion with signs.
-3. During verification, the uniform equation form simplifies the process of checking and verifying polynomials.
+> 1. It standardizes all constraint equations into the form $f(x) = 0$, simplifying the process of handling and verifying these equations.
+> 2. It clarifies the role and coefficients of each selector polynomial, avoiding confusion with signs.
+> 3. During verification, the uniform equation form simplifies the process of checking and verifying polynomials.
 
 Simple, right? Now, let’s move on to the next step.
 
@@ -285,6 +285,8 @@ Let’s compare the two circuits below. They yield identical $Q$ matrices, but t
 
 The difference between the two circuits is whether $x_5$ and $x_6$ are connected to gate `#1`.
 
+<img src="/ZKP-PLONK/images/Plonkish Arithmetization/W.png" width="40%" />
+
 Referring to the circuit comparison diagram and matrix $W$, if the Prover directly fills the circuit values into matrix $W$, an **honest** Prover will input the same value in positions $(w_a,1)$ (first row, first column) and $(w_c,2)$ (second row, third column). However, a **malicious** Prover could input different values. If the malicious Prover also inputs different values in $(w_b,1)$ and $(w_c,3)$, they are effectively proving the circuit on the right rather than the agreed-upon circuit on the left.
 
 $$
@@ -302,6 +304,9 @@ To prevent a **malicious** Prover from cheating, we need to introduce additional
 <img src="/ZKP-PLONK/images/Plonkish Arithmetization/new constraints.png" width="50%" />
 
 This introduces a new type of constraint—**Copy Constraints**. In Plonk, **permutation proofs** are used to ensure that multiple positions in matrix $W$ satisfy these copy constraints. Let’s use the same circuit example to explain the basic idea.
+
+<img src="/ZKP-PLONK/images/Plonkish Arithmetization/W.png" width="40%" />
+
 
 Imagine we arrange all the positions in the $W$ table into a vector:
 
@@ -336,24 +341,12 @@ In the permuted $\vec\{A'}$, $a_1$, $a_2$, and $a_3$ are shifted to the right: $
 
 If $\vec{A'} = \vec{A}$, then all corresponding positions in $\vec{A'}$ and $\vec{A}$ should have equal values, giving us: $a_1 = a_3$, $a_2 = a_1$, and $a_3 = a_2$, which implies $a_1 = a_2 = a_3$. This method can be applied to any number of equality constraints. (For how to prove vector equality, refer to Section 3).
 
-**How do we describe the swapping operations in the circuit value table?** We only need to record $\vec{\sigma}$, which tracks the mapping of the swapped positions. In other words, it shows which variable is swapped to which new position. Of course, $\vec{\sigma}$ can also be written in table form:
+**How do we describe the swapping operations in the circuit value table?** We only need to record $\vec{\sigma}$, which tracks the mapping of the swapped positions. In other words, it shows which variable is swapped to which new position. We just need to record $\vec{\sigma}$, then we can descirbe the process. Also, $\vec{\sigma}$ can be written in table form:
 
-> **Supplementary Concept**
+<img src="/ZKP-PLONK/images/Plonkish Arithmetization/position.png" width="40%" />
 
-> Assume we have an initial list (or permutation) $w_1, w_2, w_3, ..., w_n$, where each $w_i$ is an element. 
-> In the description, $(w_i,j)$ indicates that element $w_i$ has been swapped to a new position $j$.
 
-> $$
-> \begin{array}{c|c|c|c|}
-> i & \sigma_a & \sigma_b & \sigma_c  \\
-> \hline
-> 1 & \boxed{(w_c,2)} & \underline{(w_c,3)} & (w_c,1) \\
-> 2 & {(w_a,2)} & {(w_b,2)} & \boxed{(w_a,1)} \\
-> 3 & {(w_a,3)} & {(w_b,3)} & \underline{(w_b,1)} \\
-> \end{array}
-> $$
-
-> Let’s break down what this position matrix represents:
+> Let's explain what the Matrix $T\in\mathbb{F}^{n\times3}$ above means:
 
 > **Initial order ($i$ column)**:
 > - The element in row 1 was initially in position 1.
@@ -375,9 +368,16 @@ If $\vec{A'} = \vec{A}$, then all corresponding positions in $\vec{A'}$ and $\ve
 > - $w_a$ was initially in position 2 and was swapped to position 1.
 > - $w_b$ was initially in position 3 and was swapped to position 1.
 
+
+If you don't understand, I hope this figure blow will help you to feel the change of position:
+
+<img src="/ZKP-PLONK/images/Plonkish Arithmetization/position change.png" width="100%" />
+
+> To summarize, the position matrix $T\in\mathbb{F}^{n\times3}$ reflects the mapping relationship. The specific position changes can be seen in the figure above. With this method, you don’t need to record how each variable is swapped, but only need to record the mapping relationship after the swap, which can simplify the description of complex swap operations.
+
 As mentioned earlier, constructing only the constraint matrix $Q$ and the assignment matrix $W$ is not enough to fully describe the example circuit in the picture 「example: Circuit 1」. However, now that we’ve included the permutation vector $\vec\sigma$, together they can jointly describe and verify the circuit. The entire circuit can be described as $(Q, \sigma)$, and the circuit's values are represented by $W$.
 
-<img src="/ZKP-PLONK/images/Plonkish Arithmetization/matrixs.png" width="80%" />
+<img src="/ZKP-PLONK/images/Plonkish Arithmetization/matrixs.png" width="100%" />
 
 $$
 \mathsf{Plonkish}_0 \triangleq (Q, \sigma; W)
@@ -428,23 +428,23 @@ $$
 q_L \circ w_a + q_R \circ w_b + q_M \circ (w_a \cdot w_b) + q_C - q_O \circ w_c = 0
 $$
 
-To ensure that $w_c$ in the first row of the $W$ matrix also equals $99$ (ensuring that the output $out$ is correctly reflected in all relevant positions), we need to add an additional copy constraint into the $\sigma$ vector, ensuring that the value of $out$ at position $(w_c,1)$ is swapped with the value of $out$ at $(w_c,4)$:
+To ensure that $w_c$ in the first row of the $W$ matrix also equals $99$ (ensuring that the output $out$ is correctly reflected in all relevant positions), we need to add an additional copy constraint into the $\sigma$ vector, ensuring that the value of $out$ at position $(w_{(c,1)}$ is swapped with the value of $out$ at $(w_{(c,4)}$:
 
 $$
 \begin{array}{c|c|c|c|}
 i & \sigma_a & \sigma_b & \sigma_c  \\
 \hline
 1 & \boxed{(w_c,2)} & \underline{(w_c,3)} & [{(w_c,4)}] \\
-2 & {(w_a,2)} & {(w_b,2)} & \boxed{(w_a,1)} \\
+2 & {(w_a,2)} & {(w_b,2)} & \boxed{w_a,1)} \\
 3 & {(w_a,3)} & {(w_b,3)} & \underline{(w_b,1)} \\
-4 & {(w_a,4)} & {(w_b,4)} & [{(w_c,1)}] \\
+4 & {(w_a,4)} & {(w_b,4)} & [{(w_c,1)}]\\
 \end{array}
 $$
 
 If the Prover is honest, the following arithmetic constraint equation holds for each $i \in (1, 2, 3, 4)$:
 
 $$
-q_{L,i} \circ w_{a,i} + q_{R,i} \circ w_{b,i} + q_{M,i} \circ (w_{a,i} \cdot w_{b,i}) + q_{C,i} - q_{O,i} \circ w_{c,i} = 0
+q_{(L,i)} \circ w_{(a,i)} + q_{(R,i)} \circ w_{(b,i)} + q_{(M,i)}\circ(w_{(a,i)}\cdot w_{(b,i)}) + q_{(C,i)} - q_{(O,i)}\circ w_{(c,i)} = 0
 $$
 
 **The general idea of the verification protocol is as follows**:
