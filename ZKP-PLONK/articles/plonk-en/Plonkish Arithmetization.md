@@ -213,6 +213,7 @@ x_6\\
 \right]
 $$
 
+
 Here’s the step-by-step simplification:
 
 $$
@@ -265,6 +266,7 @@ x_6\\
 \end{array}
 \right]
 $$
+
 
 By comparing the simplified result with the initial constraints, you can see that we have already reached the result—**the proof is complete**. The simplified result matches the original constraints, and the final result corresponds to the operations of the three gates.
 
