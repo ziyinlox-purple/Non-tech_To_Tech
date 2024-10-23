@@ -192,13 +192,11 @@ x_4\\
 \circ
 \left[
 \begin{array}{c}
-x_5 \cdot x_6 \\
-x_1 \cdot x_2 \\
-x_3 \cdot x_4\\
+x_5\cdot x_6 \\
+x_1\cdot x_2 \\
+x_3\cdot x_4\\
 \end{array}
-\right]
-=
-\left[
+\right]=\left[
 \begin{array}{c}
 1\\
 1 \\
@@ -236,13 +234,11 @@ x_2 \\
 +
 \left[
 \begin{array}{c}
-x_5 \cdot x_6 \\
+x_5\cdot x_6 \\
 0 \\
-x_3 \cdot x_4\\
+x_3\cdot x_4\\
 \end{array}
-\right]
-=
-\left[
+\right]=\left[
 \begin{array}{c}
 out \\
 x_5 \\
@@ -251,18 +247,17 @@ x_6\\
 \right]
 $$
 
+
 After further simplification:
 
 $$
 \left[
 \begin{array}{c}
-x_5 \cdot x_6 \\
-x_1 + x_2 \\
-x_3 \cdot x_4\\
+x_5\cdot x_6 \\
+x_1+x_2 \\
+x_3\cdot x_4\\
 \end{array}
-\right]
-=
-\left[
+\right]=\left[
 \begin{array}{c}
 out \\
 x_5 \\
