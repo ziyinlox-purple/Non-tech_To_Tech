@@ -303,15 +303,8 @@ $$
 
 结合上面的电路比较图和矩阵 $W$ 一起来看，如果让 Prover 直接把电路赋值填入矩阵 $W$ 中，一个「诚实的」Prover 会在 $w_{(a,1)}$ （表示 $i=1$ 行， $w_a$ 列，也就是在第一行第一列）和 $w_{(c,2)}$（表示 $i=2$ 行， $w_c$ 列，也就是在第二行第三列） 的两个位置填上相同的值；而一个「恶意的」Prover 完全可以填上不同的值。如果恶意的 Prover 在 $w_{(b,1)}$ 和 $w_{(c,3)}$ 也填入不同的值，那么实际上 Prover 证明的是上图右边的电路，而非是和 Verifier 共识过的电路(左边)，「恶意的」Prover 填写不同值的情况：
 
-$$
-\begin{array}{c|c|c|c|}
-i & w_a & w_b & w_c  \\
-\hline
-1 & \boxed{x_5} & \underline{x_6} & out \\
-2 & x_1 & x_2 & \boxed{x_5} \\
-3 & x_3 & x_4 & \underline{x_6} \\
-\end{array}
-$$
+<img src="/ZKP-PLONK/images/polish「1」.md/恶意prover 的情况.png" width="30%" />
+
 
 为了防止「恶意的」 Prover 作恶，我们需要增加新的约束，强制要求右边电路图中 $x_5=x_7$ 和 $x_6=x_8$，见下图。这等价于我们要求 Prover 把同一个变量填入表格多个位置时，必须填入相等的值。
 

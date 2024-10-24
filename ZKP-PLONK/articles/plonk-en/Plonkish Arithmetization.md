@@ -286,15 +286,7 @@ The difference between the two circuits is whether $x_5$ and $x_6$ are connected
 
 Referring to the circuit comparison diagram and matrix $W$, if the Prover directly fills the circuit values into matrix $W$, an **honest** Prover will input the same value in positions $(w_a,1)$ (first row, first column) and $(w_c,2)$ (second row, third column). However, a **malicious** Prover could input different values. If the malicious Prover also inputs different values in $(w_b,1)$ and $(w_c,3)$, they are effectively proving the circuit on the right rather than the agreed-upon circuit on the left.
 
-$$
-\begin{array}{c|c|c|c|}
-i & w_a & w_b & w_c  \\
-\hline
-1 & \boxed{x_5} & \underline{x_6} & out \\
-2 & x_1 & x_2 & \boxed{x_5} \\
-3 & x_3 & x_4 & \underline{x_6} \\
-\end{array}
-$$
+<img src="/ZKP-PLONK/images/Plonkish Arithmetization/Malicious prover fills in different values.png" width="40%" />
 
 To prevent a **malicious** Prover from cheating, we need to introduce additional constraints, forcing an equivalence between variables, like $x_5 = x_7$ and $x_6 = x_8$ in the right-hand circuit, as shown below. This is equivalent to requiring the Prover to input identical values for the same variable in multiple places in the table.
 
