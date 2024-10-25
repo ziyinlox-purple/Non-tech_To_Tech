@@ -295,11 +295,11 @@ $$
 比较下面两个电路，它们能构成的 $Q$ 矩阵完全相同，但它们的电路结构却完全不同。
 
 
-<img src="/ZKP-PLONK/images/polish「1」.md/电路比较.png" width="70%" />
+<img src="/ZKP-PLONK/images/polish「1」/电路比较.png" width="70%" />
 
 两个电路的区别在于： $x_5, x_6$ 是否被接入了 `#1` 号门。
 
-<img src="/ZKP-PLONK/images/polish「1」.md/W.png" width="30%" />
+<img src="/ZKP-PLONK/images/polish「1」/W.png" width="30%" />
 
 结合上面的电路比较图和矩阵 $W$ 一起来看，如果让 Prover 直接把电路赋值填入矩阵 $W$ 中，一个「诚实的」Prover 会在 $w_{(a,1)}$ （表示 $i=1$ 行， $w_a$ 列，也就是在第一行第一列）和 $w_{(c,2)}$（表示 $i=2$ 行， $w_c$ 列，也就是在第二行第三列） 的两个位置填上相同的值；而一个「恶意的」Prover 完全可以填上不同的值。如果恶意的 Prover 在 $w_{(b,1)}$ 和 $w_{(c,3)}$ 也填入不同的值，那么实际上 Prover 证明的是上图右边的电路，而非是和 Verifier 共识过的电路(左边)，「恶意的」Prover 填写不同值的情况：
 
