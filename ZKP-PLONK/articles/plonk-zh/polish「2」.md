@@ -36,7 +36,7 @@ $(\sigma_a(X),\sigma_b(X),\sigma_c(X))$ 是置换多项式，它们用于描述�
 
 因此，可以用一个或若干的多项式把三列进行编码，把 3×100(三列一百行) 的表，变成用 3 个多项式来表示。（这点可以结合 excel 表格计算公式来理解，很类似）
 
-<img src="/ZKP-PLONK/images/「2」PLONK多项式编程/表1-1.png" width="20%" />
+<img src="/ZKP-PLONK/images/polish「2」/表1-1.png" width="20%" />
 
 「表1-1」
 
@@ -482,9 +482,12 @@ $$
 
 其中乘法群的生成元为 $g=2$。由于 $13-1=3\*2\*2$，所以存在一个阶数为 $4$ 的乘法子群，其生成元为 $\omega=5$：
 
+> 如果 $g$ 是 $\mathbb{F}_p^\ast$ 的生成元，那么 $g^{p-1}=1$，且 $\{g^0,g^1,\ldots,g^{p-2}\}$
+
 $$
 H=(\omega^0=1,\omega^1=5,\omega^2=12,\omega^3=8)
 $$
+
 
 而 $\omega^4=1=\omega^0$。
 
@@ -497,6 +500,10 @@ z_H(X)=\prod_{i=0}^{N-1}(X-\omega^i)=X^N-1
 $$
 
 我们可以进行简单的推导，假设 $N = 4$，由于 $\omega^i$ 的对称性，所以 $w^4=1$，意味着 $w$ 可能是 $1,i,-1,-i$。这个计算过程可以不断化简：
+
+> 如何理解 $\omega^i$ 的对称性？
+> 如果 $\omega^i$ 是一个单位根，那么它的共轭 $\overline{\omega_i}=\omega^{-k}$ 也是单位根。
+> $\omega_i \times \omega^{N-i}=1$ (互为倒数)； $\omega^N=1$ 确保它们在单位圆上是周期性的（每 $N$ 个重复）。
 
 $$
 \begin{split}
@@ -512,7 +519,7 @@ $$
 
 对于 Lagrange 多项式， $L_i(w_i)=1$，并且 $L_i(w_j)=0, (j\neq i)$。接下来，我们给出 $L_i(X)$ 的构造。
 
-为了构造 $L_i(X)$，先构造不等于零的多项式部分。由于 $L_i(\omega_j)=1, j = i$，因此他一定包含 $\prod_{j,j\neq i}(X-\omega_j)$ 这个多项式因子。但该因子显然在 $X=\omega_i$ 处可能不等于 $1$，即可能 $\prod_{j, j\neq i}(\omega_i-\omega_j)\neq 1$。然后，我们只要让该因子除以这个可能不等于 $1$ 的值即可，于是 $L_i(X)$ 定义如下：
+为了构造 $L_i(X)$，先构造不等于零的多项式部分。由于 $L_i(\omega_j)=1, j = i$，因此他一定包含 $\prod_{j,j\neq i}(X-\omega_j)$ 这个多项式因子。但也正是因此，因子显然在 $X=\omega_i$ 处可能不等于 $1$，即可能 $\prod_{j, j\neq i}(\omega_i-\omega_j)\neq 1$。然后，我们只要让该因子除以这个可能不等于 $1$ 的值即可，于是 $L_i(X)$ 定义如下：
 
 $$
 L_i(X) = \frac{\prod_{j\in H\backslash\{i\}}(X-\omega_j)}{\prod_{j\in H\backslash\{i\}}(\omega_i-\omega_j)} = \prod_{j\in H\backslash\{i\}}^{} \frac{X-\omega_j}{\omega_i-\omega_j}
