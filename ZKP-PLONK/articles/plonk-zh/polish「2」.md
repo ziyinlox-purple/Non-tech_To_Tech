@@ -464,12 +464,9 @@ $$
 
 这些元素满足一定的对称性：比如 $\omega^{\frac{N}{2}} = e^{2\pi i \cdot \frac{N/2}{N}} = e^{\pi i} = -1$，
 
-从 $\omega^{\frac{N}{2}} = -1$，我们有 $\omega^{\frac{N}{2} + 1} = \omega \cdot \omega^{\frac{N}{2}} = \omega \cdot (-1) = -\omega$。所以，$\omega = -\omega^{\frac{N}{2} + 1}$。
-
-$\omega^i=-\omega^{\frac{N}{2}+i}$：
+从 $\omega^{\frac{N}{2}} = -1$，我们有 $\omega^{\frac{N}{2} + 1} = \omega \cdot \omega^{\frac{N}{2}} = \omega \cdot (-1) = -\omega$。所以， $\omega = -\omega^{\frac{N}{2} + 1}$。
  
-对于任何指数 $i$，有 $\omega^{\frac{N}{2}} = -1$。
-所以 $\omega^{\frac{N}{2} + i} = \omega^{\frac{N}{2}} \cdot \omega^i = (-1) \cdot \omega^i = -\omega^i$。
+对于任何指数 $i$，有 $\omega^{\frac{N}{2}} = -1$。所以 $\omega^{\frac{N}{2} + i} = \omega^{\frac{N}{2}} \cdot \omega^i = (-1) \cdot \omega^i = -\omega^i$。
 
 又比如把所有的单位根求和，我们会得到零：
 
@@ -491,7 +488,7 @@ $$
 
 而 $\omega^4=1=\omega^0$。
 
-在实际应用中，我们会选择一个较大的有限域，它能有一个较大的 Powers-of-2 乘法子群。比如椭圆曲线 `BN254` 的 Scalar Field，含有一个阶数为 $2^{28}$ 的乘法子群，`BLS-12-381` 的Scalar Field 含有一个阶数为 $2^{32}$ 的乘法子群。
+在实际应用中，我们会选择一个较大的有限域，它能有一个较大的 Powers-of-2 乘法子群。比如椭圆曲线 `BN254` 的 Scalar Field，含有一个阶数为 $2^{28}$ 的乘法子群，`BLS-12-381` 的 Scalar Field 含有一个阶数为 $2^{32}$ 的乘法子群。
 
 在乘法子群 $H$ 上，具有下面的性质：
 
@@ -499,14 +496,12 @@ $$
 z_H(X)=\prod_{i=0}^{N-1}(X-\omega^i)=X^N-1
 $$
 
-我们可以进行简单的推导，假设 $N = 4$，由于 $\omega^i$ 的对称性，这个计算过程可以不断化简：
+我们可以进行简单的推导，假设 $N = 4$，由于 $\omega^i$ 的对称性，所以 $w^4=1$，意味着 $w$ 可能是 $1,i,-1,-i$。这个计算过程可以不断化简：
 
 $$
 \begin{split}
 &(X-\omega^0)(X-\omega^1)(X-\omega^2)(X-\omega^3) \\
-=& (X-1)(X-\omega)(X+1)(X-\omega^{3})  \\
-=& (X^2-1)(X-\omega)(X+\omega) \\
-=& (X^2-1)(X^2-\omega^2) \\
+=& (X-1)(X-i)(X+1)(X+i)  \\
 =& (X^2-1)(X^2+1) \\
 =& (X^4-1) \\
 \end{split}
