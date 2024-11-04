@@ -286,19 +286,11 @@ The difference between the two circuits is whether $x_5$ and $x_6$ are connected
 
 Referring to the circuit comparison diagram and matrix $W$, if the Prover directly fills the circuit values into matrix $W$, an **honest** Prover will input the same value in positions $(w_a,1)$ (first row, first column) and $(w_c,2)$ (second row, third column). However, a **malicious** Prover could input different values. If the malicious Prover also inputs different values in $(w_b,1)$ and $(w_c,3)$, they are effectively proving the circuit on the right rather than the agreed-upon circuit on the left.
 
-$$
-\begin{array}{c|c|c|c|}
-i & w_a & w_b & w_c  \\
-\hline
-1 & \boxed{x_5} & \underline{x_6} & out \\
-2 & x_1 & x_2 & \boxed{x_5} \\
-3 & x_3 & x_4 & \underline{x_6} \\
-\end{array}
-$$
+<img src="/ZKP-PLONK/images/Plonkish Arithmetization/Malicious prover fills in different values.png" width="40%" />
 
 To prevent a **malicious** Prover from cheating, we need to introduce additional constraints, forcing an equivalence between variables, like $x_5 = x_7$ and $x_6 = x_8$ in the right-hand circuit, as shown below. This is equivalent to requiring the Prover to input identical values for the same variable in multiple places in the table.
 
-<img src="/ZKP-PLONK/images/Plonkish Arithmetization/new constraints.png" width="50%" />
+<img src="/ZKP-PLONK/images/Plonkish Arithmetization/new constraints.png" width="30%" />
 
 This introduces a new type of constraint—**Copy Constraints**. In Plonk, **permutation proofs** are used to ensure that multiple positions in matrix $W$ satisfy these copy constraints. Let’s use the same circuit example to explain the basic idea.
 
@@ -425,23 +417,23 @@ $$
 q_L \circ w_a + q_R \circ w_b + q_M \circ (w_a \cdot w_b) + q_C - q_O \circ w_c = 0
 $$
 
-To ensure that $w_c$ in the first row of the $W$ matrix also equals $99$ (ensuring that the output $out$ is correctly reflected in all relevant positions), we need to add an additional copy constraint into the $\sigma$ vector, ensuring that the value of $out$ at position $(w_{(c,1)}$ is swapped with the value of $out$ at $(w_{(c,4)}$:
+To ensure that $w_c$ in the first row of the $W$ matrix also equals $99$ (ensuring that the output $out$ is correctly reflected in all relevant positions), we need to add an additional copy constraint into the $\sigma$ vector, ensuring that the value of $out$ at position $w_{(c,1)}$ is swapped with the value of $out$ at $w_{(c,4)}$:
 
 $$
 \begin{array}{c|c|c|c|}
 i & \sigma_a & \sigma_b & \sigma_c  \\
 \hline
-1 & \boxed{(w_c,2)} & \underline{(w_c,3)} & [{(w_c,4)}] \\
-2 & {(w_a,2)} & {(w_b,2)} & \boxed{w_a,1)} \\
-3 & {(w_a,3)} & {(w_b,3)} & \underline{(w_b,1)} \\
-4 & {(w_a,4)} & {(w_b,4)} & [{(w_c,1)}]\\
+1 & \boxed{w_{(c,2)}} & \underline{w_{(c,3)}} & [{w_{(c,4)}}] \\
+2 & {w_{(a,2)}} & {w_{(b,2)}} & \boxed{w_{(a,1)}} \\
+3 & {w_{(a,3)}} & {w_{(b,3)}} & \underline{w_{(b,1)}} \\
+4 & {w_{(a,4)}} & {w_{(b,4)}} & [{w_{(c,1)}}]\\
 \end{array}
 $$
 
 If the Prover is honest, the following arithmetic constraint equation holds for each $i \in (1, 2, 3, 4)$:
 
 $$
-q_{(L,i)} \circ w_{(a,i)} + q_{(R,i)} \circ w_{(b,i)} + q_{(M,i)}\circ(w_{(a,i)}\cdot w_{(b,i)}) + q_{(C,i)} - q_{(O,i)}\circ w_{(c,i)} = 0
+q_{L,i} \circ w_{(a,i)} + q_{R,i} \circ w_{(b,i)} + q_{M,i}\circ(w_{(a,i)}\cdot w_{(b,i)}) + q_{C,i} - q_{O,i}\circ w_{(c,i)} = 0
 $$
 
 **The general idea of the verification protocol is as follows**:
