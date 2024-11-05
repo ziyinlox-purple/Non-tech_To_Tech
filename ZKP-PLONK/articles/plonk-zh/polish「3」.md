@@ -513,7 +513,7 @@ $$
 
 > 注：还记得吗？这个等式是 Verifier 一开始就知道的，我们前面的准备都是为验证这个约束等式做铺垫。
 
-<img src="/ZKP-PLONK/images/polish「3」/完整的置换协议.png" width="80%" />
+<img src="/ZKP-PLONK/images/polish「3」/完整的置换协议.png" width="100%" />
 
 
 协议完毕。
