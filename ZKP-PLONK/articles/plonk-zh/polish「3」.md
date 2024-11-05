@@ -268,7 +268,7 @@ $B(X)=h(X)\cdot z_H(X)$ ，
 
 ## 从 Grand Product 到 Multiset 等价
 
-假设有两个向量，$\vec{B}$ 是另一个 $\vec{A}$ 的乱序重排：
+假设有两个向量， $\vec{B}$ 是另一个 $\vec{A}$ 的乱序重排：
 
 $\vec{A} = [1, 2, 3]$
 $\vec{B} = [3, 1, 2]$
@@ -281,13 +281,16 @@ $\vec{B} = [3, 1, 2]$
 
 $\vec A = [1,2,3] , \vec B = [3,1,2]$ 转换成多项式，我们把向量里的元素转化为多项式的系数，那么多项式可以写成：
 
-$A(X)=1+2x+3x_{2}$
-
-$B(X)=3+1x+2x_{2}$
+$$
+\begin{split}
+A(X)=1+2x+3x^{2}\\
+B(X)=3+1x+2x^{2}
+\end{split}
+$$
 
 2. 但是如果两个多项式不同，它们可能也表示同一个集合，例如，
 
-多项式 $A(X)\neq B(X)$， 即 $1+2x+3x_{2} \neq 3+x+2x_{2}$ ，但都可以表示为集合 $\\{1,2,3\\}$ 。
+多项式 $A(X)\neq B(X)$， 即 $1+2x+3x_{2} \neq 3+x+{2x}^{2}$ ，但都可以表示为集合 $\\{1,2,3\\}$ 。
 
 **这就是在集合意义上的等价，即便多项式本身不相同**。
 
@@ -371,7 +374,7 @@ $$
 我们仍然采用「多项式编码」的方式把上面两个向量编码为两个多项式， $a(X)$ 与 $b(X)$。思考一下，我们可以用下面的「位置向量」来表示「奇偶互换」：
 
 $$
-\vec{i}=(0, 1, 2, 3, \ldots, n-1, n),\quad \sigma = (1, 0, 3, 2,\ldots, n, n-1)
+\vec{i}=(0, 1, 2, 3, \ldots, n-1, n),\qquad \sigma = (1, 0, 3, 2,\ldots, n, n-1)
 $$
 
 进一步把这个位置向量 $\sigma$ 和 $\vec{a}$ 与 $\vec{b}$ 并排放在一起：
@@ -392,8 +395,6 @@ $$
 
 接下来，我们要把上表的左边两列，还有右边两列分别「折叠」在一起。换句话说，我们把 $(a_i, i)$ 视为一个元素，把 $(b_i, \sigma(i))$ 视为一个元素，这样上面表格就变成了：
 
-<!-- hack for buggy mathjax on github -->
-
 $$
 \begin{array}{|c|c|}
 a'_i=(a_i, i) & b'_i=({b}_i, \sigma(i)) \\
@@ -407,6 +408,8 @@ a'_i=(a_i, i) & b'_i=({b}_i, \sigma(i)) \\
 $$
 
 容易看出，如果两个向量 $\vec{a}$ 与 $\vec{b}$ 满足 $\sigma$ 置换，那么，合并后的两个向量 $\vec{a}'$ 和 $\vec{b}'$  将满足 Multiset 等价关系。
+
+<img src="/ZKP-PLONK/images/polish「3」/奇偶置换.png" width="40%" />
 
 也就是说，通过把向量值和位置值合并，就能把一个「置换证明」转换成一个「多重集合等价证明」，即不用再针对某个特定的「置换关系」进行证明。
 
@@ -426,7 +429,11 @@ a'_i=(a_i+\beta\cdot i) & b_i'=(b + \beta\cdot \sigma(i)) \\
 \end{array}
 $$
 
-注： 当然，加法最简单，但这里用其他的算法是否也可以，答案是不可以，因为我们要保证安全性，所以 prover 在接受到 verifier 发出的随机挑战数 $\beta$ 的时候，只能写成 
+我们可以看一下这个步骤：
+
+<img src="/ZKP-PLONK/images/polish「3」/奇偶置换-2.png" width="40%" />
+
+> 注： 第三步的时候，使用加法是因为加法最简单，但这里用其他的算法是否也可以呢？答案是不可以。因为我们要保证安全性，如果没有引入随机性，Prover 可能在某些情况下通过事先构造好的证明绕过验证。所以 prover 在接受到 verifier 发出的随机挑战数 $\beta$ 的时候，要写成 
 
 $$
 \begin{array}{c}
@@ -438,6 +445,7 @@ $$
 
 接下来，Prover 可以对 $\vec{a}'$ 与 $\vec{b}'$ 两个向量进行 Multiset 等价证明，从而可以证明它们的置换关系。
 
+</br>
 
 ## 完整的置换协议
 
@@ -447,7 +455,9 @@ $$
 
 秘密输入：两个长度为 $N$ 的向量 $\vec{a}$ 与 $\vec{b}$ 
 
-预处理：Prover 和 Verifier 构造 $[id(X)]$ 与 $[\sigma(X)]$，其中 $id(X)$ 为 $(0, 1, 2, \ldots, N-1)$ 的多项式编码， $\sigma(X)$ 为 $(\sigma(0), \sigma(1), \ldots, \sigma(N-1))$ 置换向量的多项式编码。
+预处理：Prover 和 Verifier 构造 $[id(X)]$ 与 $[\sigma(X)]$，其中 $id(X)$ 为 $(0, 1, 2, \ldots, N-1)$ 的序列的多项式编码， $\sigma(X)$ 为 $(\sigma(0), \sigma(1), \ldots, \sigma(N-1))$ 置换向量的多项式编码。
+
+> `[]`表示承诺（commit）， 表示 $[id(X)]$ 和 $[\sigma(X)]$ 的作用是允许 Prover 和 Verifier 在不公开完整多项式的情况下进行验证和归约。
 
 第一步：Prover 构造并发送 $[a(X)]$ 与 $[b(X)]$
 
@@ -501,7 +511,10 @@ $$
 L_0(\zeta)(z(\zeta)-1) + \alpha\cdot (z(\omega\cdot \zeta)(b(\zeta)+\beta\cdot\sigma(\zeta)+\gamma)-z(\zeta)(a(\zeta)+\beta\cdot id(\zeta)+\gamma)) \overset{?}{=} h(\zeta)z_H(\zeta)
 $$
 
-注：还记得吗？这个等式是 Verifier 一开始就知道的，我们前面的准备都是为验证这个约束等式做铺垫。
+> 注：还记得吗？这个等式是 Verifier 一开始就知道的，我们前面的准备都是为验证这个约束等式做铺垫。
+
+<img src="/ZKP-PLONK/images/polish「3」/完整的置换协议.png" width="80%" />
+
 
 协议完毕。
 
