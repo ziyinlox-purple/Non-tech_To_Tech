@@ -409,7 +409,7 @@ $$
 
 容易看出，如果两个向量 $\vec{a}$ 与 $\vec{b}$ 满足 $\sigma$ 置换，那么，合并后的两个向量 $\vec{a}'$ 和 $\vec{b}'$  将满足 Multiset 等价关系。
 
-<img src="/ZKP-PLONK/images/polish「3」/奇偶置换.png" width="40%" />
+<img src="/ZKP-PLONK/images/polish「3」/奇偶置换-1.png" width="40%" />
 
 也就是说，通过把向量值和位置值合并，就能把一个「置换证明」转换成一个「多重集合等价证明」，即不用再针对某个特定的「置换关系」进行证明。
 
