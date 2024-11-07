@@ -28,7 +28,7 @@ Why do this? It's to **improve efficiency and reduce costs**.
 
 First,
 
-Using the matrix $W$ table form 「able 1-1」 from 「Plonkish Arithmetization」 as an example, it follows the principle of vertical encoding, meaning each column can be represented by a polynomial to describe the calculation rules for the contents under that column.
+Using the matrix $W$ table form "able 1-1" from "Plonkish Arithmetization" as an example, it follows the principle of vertical encoding, meaning each column can be represented by a polynomial to describe the calculation rules for the contents under that column.
 
 Currently, there are only three columns, so even checking row by row doesn't take much time. However, if the number of rows increases to 100, checking each row becomes labor-intensive, requiring significant computational power from the Verifier.
 
@@ -58,7 +58,7 @@ Let's revisit the example to see the calculation process:
 
 <img src="/ZKP-PLONK/images/Lagrange-basis/W.png" width="50%" />
 
-Using 「Table 1-1」 as an example, currently the table is only 3×3. The indices $i$ and their corresponding interpolation points are as follows:
+Using "Table 1-1" as an example, currently the table is only 3×3. The indices $i$ and their corresponding interpolation points are as follows:
 
 - Indices: $i = 1,2,3$
 - Interpolation points:
@@ -98,7 +98,7 @@ $$
 {l_3}{(X)}=\frac{(X-1)(X-2)}{(3-1)(3-2)} =\frac{(X-1)(X-2)}{2} 
 $$
 
-Next, using the content from 「Table 1-1」 and the Lagrange basis functions computed above for each $i$, **we start constructing the interpolation polynomials $w_a(X)$, $w_b(X)$, $w_c(X)$**:
+Next, using the content from "Table 1-1" and the Lagrange basis functions computed above for each $i$, **we start constructing the interpolation polynomials $w_a(X)$, $w_b(X)$, $w_c(X)$**:
 
 For $w_a$:
 
@@ -172,13 +172,13 @@ You can similarly verify $w_a(X)$ and $w_b(X)$.
 
 If verification passes, it confirms the calculations are correct, and the preliminary work is complete.
 
-**In summary**, all the above essentially involves constructing interpolation polynomials $w_a(X)$ based on known relationships in 「Table 1」. 「Table 2」 illustrates the substitution process, while 「Table 3」 shows the interpolation polynomials $w_a(X)$ constructed from the interpolation $i=\{1,2,3\}$.
+**In summary**, all the above essentially involves constructing interpolation polynomials $w_a(X)$ based on known relationships in "Table 1". "Table 2" illustrates the substitution process, while "Table 3" shows the interpolation polynomials $w_a(X)$ constructed from the interpolation $i=\\{1,2,3\\}$.
 
 <img src="/ZKP-PLONK/images/Lagrange-basis/process.png" width="100%" />
 
-In 「Table 1」, the domain is $i\in \\{1,2,3\\}$, which becomes clearer in 「Table 2」. Once the interpolation polynomial $w_a(X)$ is constructed in 「Table 3」, the range of values that the variable $X$ can take is no longer limited to the original $\\{1,2,3\\}$, and can be extended to the finite field $\mathbb{F}$.
+In "Table 1", the domain is $i\in \\{1,2,3\\}$, which becomes clearer in "Table 2". Once the interpolation polynomial $w_a(X)$ is constructed in "Table 3", the range of values that the variable $X$ can take is no longer limited to the original $\\{1,2,3\\}$, and can be extended to the finite field $\mathbb{F}$.
 
-We constructed the Lagrange interpolation polynomial in 「3」 with the existing three interpolation points. With it, we can substitute unknown points for numerical computation to verify if $w_a(X)\cdot w_b(X)=w_c(X)$. If a randomly selected $X$ from $\mathbb{F}$ satisfies $w_a(X)\cdot w_b(X)=w_c(X)$, and if $\mathbb{F}$ is sufficiently large, it can prove with high probability that the Prover did not cheat. How is this ensured? This is where the Schwartz-Zippel lemma comes in.
+We constructed the Lagrange interpolation polynomial in "3" with the existing three interpolation points. With it, we can substitute unknown points for numerical computation to verify if $w_a(X)\cdot w_b(X)=w_c(X)$. If a randomly selected $X$ from $\mathbb{F}$ satisfies $w_a(X)\cdot w_b(X)=w_c(X)$, and if $\mathbb{F}$ is sufficiently large, it can prove with high probability that the Prover did not cheat. How is this ensured? This is where the Schwartz-Zippel lemma comes in.
 
 </br>
 
