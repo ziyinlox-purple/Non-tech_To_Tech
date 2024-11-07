@@ -34,7 +34,7 @@ Currently, there are only three columns, so even checking row by row doesn't tak
 
 Therefore, encoding the three columns with one or several polynomials can transform a 3×100 table into 3 polynomials. (This is similar to understanding Excel spreadsheet formulas.)
 
-<img src="/ZKP-PLONK/images/polish「2」/表1-1.png" width="20%" />
+<img src="/ZKP-PLONK/images/Lagrange-basis/W.png" width="50%" />
 
 Secondly, transforming into polynomials offers an inherent advantage. If the matrix $W$ table can be successfully represented by polynomials, the Verifier doesn't need to verify all points in the domain to confirm the circuit's correctness.
 
@@ -56,7 +56,7 @@ Let's revisit the example to see the calculation process:
 
 </br>
 
-<img src="/ZKP-PLONK/images/Lagrange-basis/W.png" width="20%" />
+<img src="/ZKP-PLONK/images/Lagrange-basis/W.png" width="50%" />
 
 Using 「Table 1-1」 as an example, currently the table is only 3×3. The indices $i$ and their corresponding interpolation points are as follows:
 
