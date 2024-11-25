@@ -331,7 +331,7 @@ $$
 向 Verifier 索要一个随机数 $\gamma$，那么 Prover 就可以通过下面的等式证明两个向量 $\\{p_i\\}$ 与 $\\{q_i\\}$ 在多重集合意义上等价：
 
 $$
-\prod_{{i\in[n]}}(\gamma-p_i)=\prod_{i\in[n]}(\gamma-q_i)
+\prod_{{i\in\left [ n \right ]}}(\gamma-p_i)=\prod_{i\in\left [ n \right ]}(\gamma-q_i)
 $$
 
 > 一些符号解释:
@@ -347,35 +347,35 @@ $$
 > 顺便说一句，两个连乘积可以合并为一个连乘积，也就是
 
 > $$
-> \prod_{{i\in[n]}}(\gamma-p_i)=\prod_{i\in[n]}(\gamma-q_i)
+> \prod_{{i\in\left [ n \right ]}}(\gamma-p_i)=\prod_{i\in\left [ n \right ]}(\gamma-q_i)
 > $$
 
 可以转化为：
 
 > $$
-> \prod_{{i\in[n]}}\frac{(\gamma-p_i)}{(\gamma-q_i)}=1
+> \prod_{{i\in\left [ n \right ]}}\frac{(\gamma-p_i)}{(\gamma-q_i)}=1
 > $$
 
 > 如何理解呢？
 > 第一个等式表示两个连乘（乘积）是相等的。每个连乘是一个多项式在 $\gamma$ 上的形式，其根分别是 $\{p_i\}$ 和 $\{q_i\}$。为了将两个连乘合并，我们将等式的右边移到左边，通过除法构造一个新的连乘积：
 
 > $$
-> \frac{\prod_{i\in[n](\gamma-p_i)}}{\prod_{i\in[n](\gamma-q_i)}}
+> \frac{\prod_{i\in\left [  n \right ]  }(\gamma-p_i)}{\prod_{i\in\left [  n \right ]  }(\gamma-q_i)} =1 
 > $$
 
 > 利用分子和分母都是连乘积的性质，可以将分子和分母的连乘积合并成一个分式形式的连乘积：
 
 > $$
-> \prod_{{i\in[n]}}\frac{(\gamma-p_i)}{(\gamma-q_i)}=1
+> \prod_{{i\in\left [ n \right ]}}\frac{(\gamma-p_i)}{(\gamma-q_i)}=1
 > $$
 
 > 这背后利用了连乘积的性质。假设我们有两个独立的连乘积：
 
-> $ A=\prod{i\in[n]} a_i$， $B=\prod{i\in[n]} b_i$
+> $A=\prod{i\in\left [ n \right ]} a_i$， $B=\prod{i\in\left [ n \right ]} b_i$
 > 将 $A$ 和 $B$ 合并成一个连乘积时，可以写成：
 
 > $$
-> \frac{A}{B} = \prod{i\in[n]} \frac{a_i}{b_i}
+> \frac{A}{B} = \prod{i\in\left [ n \right ]} \frac{a_i}{b_i}
 > $$
 
 到这里，我们已经理解如何证明「Multiset 等价」，下一步我们将完成构造「置换证明」（Permutation Argument），用来实现 Plonk 协议所需的「Copy Constraints」。
@@ -390,23 +390,23 @@ $$
 上面我们有讲到验证 Multiset 等价，这是第一步，首先通过连乘积验证来确保 $p_i$ 和 $q_i$ 是 Multiset 等价的，即验证：
 
 $$
-\prod_{{i\in[n]}}\frac{(\gamma-p_i)}{(\gamma-q_i)}=1
+\prod_{{i\in\left [ n \right ]}}\frac{(\gamma-p_i)}{(\gamma-q_i)}=1
 $$
 
 > 注意：连乘积是一种计算方法，可以被多次运用
 
-第二步，我们需要验证 $q_i=p(\sigma_(i))$ 是否成立。通常通过以下方式完成：
+第二步，我们需要验证 $q_i=p(\sigma_{(i)})$ 是否成立。通常通过以下方式完成：
 
 首先，在 PLONK 中，通过一个特殊的置换多项式 $\sigma(x)$ 来捕捉置换关系，明确描述 $p_i$ 和 $q_i$ 的映射关系；
 
-其次，验证置换一致性要用到：$p(X)=q(\sigma(x))$
+其次，验证置换一致性要用到： $p(X)=q(\sigma(X))$
 
-> 其中 $p(x)$ 和 $q(x)$ 是分别插值 $p_i$ 和 $q_i$ 的多项式， $\sigma(x)$ 是置换多项式。
+> 其中 $p(X)$ 和 $q(X)$ 是分别插值 $p_i$ 和 $q_i$ 的多项式， $\sigma(X)$ 是置换多项式。
 
 最后，为了验证置换的正确性，通常通过对「连乘积」的检查（即「积检验」）来完成：
 
 $$
-\prod_{{i\in[n]}}(\gamma-p_i)=\prod_{i\in[n]}(\gamma-q_{\sigma(i)})
+\prod_{{i\in\left [ n \right ]}}(\gamma-p_i)=\prod_{i\in\left [ n \right ]}(\gamma-q_{\sigma(i)})
 $$
 
 这种连乘积的关系本质上捕捉了 Multiset 等价和具体置换的结合。
@@ -432,7 +432,10 @@ $$
 \vec{i}=(0, 1, 2, 3, \ldots, n-1, n),\qquad \sigma = (1, 0, 3, 2,\ldots, n, n-1)
 $$
 
-进一步把这个位置向量 $\sigma$ 和 $\vec{a}$ 与 $\vec{b}$ 并排放在一起：
+> $\vec{i}$ 的每个分量 $i$ 对应一个元素的「初始位置」；
+> $\sigma$ 是一个「置换」或「排列」，它描述了 $\vec{i}$ 中的每个位置如何被重新排列。
+
+进一步把位置向量 和 $\vec{a}$ 与 $\vec{b}$ 并排放在一起：
 
 $$
 \begin{array}{|c|c | c|c|}
@@ -493,7 +496,7 @@ $$
 
 <img src="/ZKP-PLONK/images/polish「3」/奇偶置换-2.png" width="40%" />
 
-> 注： 第三步的时候，使用加法是因为加法最简单，但这里用其他的算法是否也可以呢？答案是不可以。因为我们要保证安全性，如果没有引入随机性，Prover 可能在某些情况下通过事先构造好的证明绕过验证。所以 prover 在接受到 verifier 发出的随机挑战数 $\beta$ 的时候，要写成 $\vec{a}'_i = a_{i} + \beta \cdot {i}$ 的形式。
+> 注： 第三步的时候，使用加法是因为加法最简单，但这里用其他的算法是否也可以呢？答案是不可以。因为我们要保证安全性，如果没有引入随机性，Prover 可能在某些情况下通过事先构造好的证明绕过验证。所以 prover 在接受到 verifier 发出的随机挑战数 $\beta$ 的时候，要写成 $\vec{a}'_ i = a_{i} + \beta \cdot {i}$ 的形式。
 
 接下来，Prover 可以对 $\vec{a}'$ 与 $\vec{b}'$ 两个向量进行 Multiset 等价证明，从而可以证明它们的置换关系。
 
