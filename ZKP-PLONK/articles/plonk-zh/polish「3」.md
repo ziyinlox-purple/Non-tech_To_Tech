@@ -7,7 +7,7 @@ Plonkish 电路编码用两个矩阵 $(Q,\sigma)$ 描述电路的空白结构，
 
 $\sigma$ 为置换关系，但具体是什么样呢？ $\sigma$ 表示的是置换之前的位置到置换之后的位置。
 
-举个例子，假设我们有两个多项式的待评估向量 $\vec{a}$ 和 $\vec{a}'$ ， $\vec{a’}$ 的元素通过置换从 $\vec{a’}$ 的对应位置获取。
+举个例子，假设我们有两个多项式的待评估向量 $\vec{a}$ 和 $\vec{a}'$ ， $\vec{a'}$ 的元素通过置换从 $\vec{a'}$ 的对应位置获取。
 
 那么假设有 $\vec{a}=[a_1,a_2,a_3]$ 和 $\vec{a}'=[a_3,a_1,a_2]$，以及一个置换 $\sigma = (1 \to 2,2 \to 3, 3 \to 1)$，其中置换 $\sigma$ 表示一种元素重排：
 
@@ -371,11 +371,11 @@ $$
 
 > 这背后利用了连乘积的性质。假设我们有两个独立的连乘积：
 
-> $A=\prod{i\in\left [ n \right ]} a_i$， $B=\prod{i\in\left [ n \right ]} b_i$
+> $A=\prod_{i\in\left [ n \right ]} a_i$， $B=\prod_{i\in\left [ n \right ]} b_i$
 > 将 $A$ 和 $B$ 合并成一个连乘积时，可以写成：
 
 > $$
-> \frac{A}{B} = \prod{i\in\left [ n \right ]} \frac{a_i}{b_i}
+> \frac{A}{B} = \prod_{i\in\left [ n \right ]} \frac{a_i}{b_i}
 > $$
 
 到这里，我们已经理解如何证明「Multiset 等价」，下一步我们将完成构造「置换证明」（Permutation Argument），用来实现 Plonk 协议所需的「Copy Constraints」。
