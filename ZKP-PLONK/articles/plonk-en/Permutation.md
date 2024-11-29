@@ -37,7 +37,7 @@ We aim to constrain the Prover while filling out the $W$ table, ensuring the fol
 - The value in $w_{b,1}$ must be copied to $w_{c,3}$;
 - The value in $w_{c,1}$ must be copied to $w_{c,4}$.
 
-The challenge here lies in the fact that the **Verifier cannot directly view the $W$ table**. Instead, the proof of multiple copy constraints in the $W$ table must be achieved **through a single random challenge**.
+The challenge here lies in the fact that the **Verifier cannot directly view the $W$ table**. Besides, the proof of multiple copy constraints in the $W$ table must be achieved **through a single random challenge**.
 
 In Plonk, the "copy constraints" are implemented using the **permutation argument**, which essentially rearranges the values in the table that need to be equal and then proves that the rearranged table is equivalent to the original table. **This is why we introduce $\sigma$ to represent the permutation relationship.**
 
@@ -50,9 +50,9 @@ $$
 a_i = a'_{\sigma(i)}
 $$
 
-### Example: Cyclic Permutation
+### Another Example: Cyclic Permutation
 
-Suppose $\vec{a} = (a_0, a_1, a_2, a_3)$ and $\vec{a}' = (a_1, a_2, a_3, a_0)$, where the two vectors follow a "left cyclic permutation." Then $\sigma = \{0 \to 1, 1 \to 2, 2 \to 3, 3 \to 0\}$. If we can prove $\vec{a} = \vec{a}'$, then the values at corresponding positions of the two vectors must be equal:
+Suppose $\vec{a} = (a_0, a_1, a_2, a_3)$ and $\vec{a}' = (a_1, a_2, a_3, a_0)$, where the two vectors follow a "left cyclic permutation". Then $\sigma = \{0 \to 1, 1 \to 2, 2 \to 3, 3 \to 0\}$. If we can prove $\vec{a} = \vec{a}'$, then the values at corresponding positions of the two vectors must be equal:
 
 $$
 \begin{array}{c{|}c|c|c|c|c}
@@ -66,7 +66,7 @@ Thus, $a_0 = a_1$, $a_1 = a_2$, $a_2 = a_3$, and $a_3 = a_0$. This leads to the 
 
 In summary, for the $W$ table, we only need to rearrange the positions that need to be equal, then let the Prover prove that the $W$ table and its rearranged version $W'$ are equivalent. To prove these two tables are equal, we can encode them into polynomials and then use a probabilistic check. The remaining task is to ensure that the Prover proves $W'$ is honestly rearranged according to the pre-agreed permutation.
 
-Next, let’s explore how the Prover can prove that two vectors satisfy a specific **permutation relationship**. The **permutation argument** is the core of the Plonk protocol. To explain its mechanism, we start with a foundational protocol—the **Grand Product Argument**.
+Next, let’s explore how the Prover can prove that two vectors satisfy a specific **permutation relationship**. The **permutation argument** is the core of the Plonk protocol. To explain its mechanism, we start with a foundational protocol — the **Grand Product Argument**.
 
 </br>
 
@@ -82,8 +82,8 @@ To handle the grand product, the basic idea is to let the Prover construct proof
 
 **Key Insight**: The critical idea is to **convert a grand product computation into multiple single-product computations**.
 
-> **Analogy**: Think of this process like building a tower of blocks:
->
+> **Analogy**: 
+> Think of this process like building a tower of blocks:
 > - The "grand product computation" is like stacking all the blocks at once to form a tall tower.
 > - The "single-product computations" are like stacking one block at a time, gradually building the same tower.
 
@@ -146,13 +146,13 @@ Polynomials $q(X)$ and $r(X)$ are used to encode $\vec{q}$ and $\vec{r}$, respec
 We can derive the following recurrence relation:
 
 $$
-r_0 = 1, \qquad r_{k+1} = q_k \cdot r_k.
+r_0 = 1, \qquad r_{k+1} = q_k \cdot r_k
 $$
 
 Thus, the three columns of the table, when encoded into polynomials, must satisfy the following three constraints:
 
+1. First Constraint is 
 
-### **First Constraint**
 $$
 L_0(X) \cdot (r(X) - 1) = 0, \qquad \forall X \in H
 $$
@@ -160,8 +160,7 @@ $$
 > This constraint is constructed using **Lagrange interpolation** to ensure that the initial value of $r(X)$ is $1$.
 
 
-### **Second Constraint**
-The recursive multiplication relationship:
+2. Second Constraint is the recursive multiplication relationship:
 
 $$
 q(X) \cdot r(X) = r(\omega \cdot X), \qquad \forall X \in H \setminus \{\omega^{-1}\}
@@ -179,15 +178,13 @@ $$
 > 5. In this context, $q_{N-1} = 0$ serves as a special condition to enforce $r_{N-1} = p$. This ensures that the grand product result $p$ is properly encoded as part of $r(X)$.
 
 
-
-### **Third Constraint**
-The purpose of this constraint is to ensure that $r(X)$ evaluates to $p$ at the endpoint:
+3. **Third Constraint** is to ensure that $r(X)$ evaluates to $p$ at the endpoint:
 
 $$
 L_{N-1}(X) \cdot (r(X) - p) = 0, \qquad \forall X \in H
 $$
 
-### How to address the Exclusion of $X = \omega^{-1}$?
+**How to address the Exclusion of $X = \omega^{-1}$?**
 
 The second constraint does not cover the entire set $H$ (it excludes $\omega^{-1}$). To address this, we can rewrite it as the following constraint equation, ensuring the polynomial constraint now fully covers $H$:
 
@@ -195,7 +192,7 @@ $$
 \big(q(X) \cdot r(X) - r(\omega \cdot X) \big) \cdot \big(X - \omega^{-1} \big) = 0, \qquad \forall X \in H.
 $$
 
-
+</br>
 
 ### Simplifying and Combining Constraints
 
@@ -220,6 +217,9 @@ This ensures $r_N = r_0 = 1$. The rightmost column now represents a **cyclic shi
 
 <img src="/ZKP-PLONK/images/Permutation/circle.pngg" width="40%" />
 
+</br>
+
+
 ### Recursive Grand Product Representation
 
 Using this setup, the recursive grand product can now be expressed as:
@@ -229,8 +229,12 @@ q(X) \cdot r(X) = r(\omega \cdot X), \qquad \forall X \in H
 $$
 
 > **Note**: 
-> Using the above trick, we modified the original constraint: $q(X)\cdot r(X) = r(\omega\cdot X), \qquad \forall X\in H\backslash\\{\omega^{-1}\\} \qquad \to \qquad q(X)\cdot r(X)=r(\omega\cdot X), \qquad \forall X\in H$ 
+
+> Using the above trick, we modified the original constraint:  $q(X)\cdot r(X) = r(\omega\cdot X), \qquad \forall X\in H\backslash\\{\omega^{-1}\\} \qquad \to \qquad q(X)\cdot r(X)=r(\omega\cdot X), \qquad \forall X\in H$ 
+
 > This means that the point $\omega^{-1}$, which was previously excluded, now satisfies the constraint over the entire $H$.
+
+</br>
 
 
 ### Final Constraints
@@ -249,9 +253,11 @@ $$
 q(X)\cdot r(X)=r(\omega\cdot X), \qquad \forall X\in H
 $$
 
+</br>
+
 ### Verifier's Challenge
 
-The Verifier can now challenge the Prover with the following aggregated polynomial equation:
+Now, verifier can challenge the Prover with the following aggregated polynomial equation:
 
 $$
 L_0(X) \cdot (r(X) - 1) + \alpha \cdot (q(X) \cdot r(X) - r(\omega \cdot X)) = h(X) \cdot z_H(X)
@@ -261,11 +267,9 @@ where:
 
 - $\alpha$ is a **random challenge** used to combine multiple polynomial constraints.
 - $h(X)$ is the quotient polynomial.
-- $z_H(X)$ is the vanishing polynomial defined as:
+- $z_H(X)$ is the vanishing polynomial defined as: $z_H(X) = (X - 1)(X - \omega)\cdots(X - \omega^{n-1})$
 
-$$
-z_H(X) = (X - 1)(X - \omega)\cdots(X - \omega^{n-1})
-$$
+</br>
 
 ### Verifying with the Schwartz-Zippel Lemma
 
@@ -274,6 +278,7 @@ Using the **Schwartz-Zippel Lemma**, the Verifier can provide a random challenge
 #### Steps:
 
 1. Construct the **difference polynomial**:
+
 $$
 A(X) = L_0(X) \cdot (r(X) - 1) + \alpha \cdot (q(X) \cdot r(X) - r(\omega \cdot X))
 $$
@@ -291,7 +296,9 @@ $$
      - If $R(\zeta) \neq 0$, the equation does not hold, and the proof is invalid.
 
 > **Notes**:
+
 > The equation $q_L \circ w_a + q_R \circ w_b + q_M \circ (w_a \cdot w_b) - q_C + q_O \cdot w_c = 0$ is typically used to establish constraint relations, often referred to as a constraint polynomial, which is designed to express specific arithmetic circuit constraints.
+
 > On the other hand, the equation $L_0(X) \cdot (r(X) - 1) + \alpha \cdot (q(X) \cdot r(X) - r(\omega \cdot X)) = h(X) \cdot z_H(X)$ commonly appears in the construction of polynomial equations to verify certain algebraic properties. For instance, it is used in polynomial commitment schemes to prove the integrity and correctness of the entire circuit or protocol.
 
 After understanding how to prove a grand product, the next step is to use the **Grand Product Argument** to implement the **Multiset Equality Argument**. This will allow us to verify that two multisets are equivalent in terms of their elements and multiplicities.
@@ -303,14 +310,12 @@ After understanding how to prove a grand product, the next step is to use the **
 Suppose we have two vectors, where $\vec{B}$ is a permutation of $\vec{A}$:
 
 $$
-\vec{A} = [1, 2, 3], \quad \vec{B} = [3, 1, 2]
+\vec{A} = [1, 2, 3], \qquad \vec{B} = [3, 1, 2]
 $$
 
 How do we prove that they are equivalent in the sense of a multiset (i.e., **unordered sets**)?
 
-### Why Polynomial Equality Does Not Work
-
-**We cannot simply prove that the polynomials encoded by the two vectors are equal to determine multiset equivalence.** Here are the reasons:
+**Firstly, we cannot simply prove that the polynomials encoded by the two vectors are equal to determine Multiset Equality.** Here are the reasons:
 
 1. If the elements in the vectors are in a different order, the resulting polynomials will also differ.  
 
@@ -335,20 +340,22 @@ Clearly, $A(X) \neq B(X)$ because the coefficients of the polynomials differ.
 
 For example, $A(X) \neq B(X)$, i.e., $1 + 2X + 3X^2 \neq 3 + X + 2X^2$. However, both polynomials represent the same multiset $\{1, 2, 3\}$.
 
-**This demonstrates multiset equivalence, even though the polynomials themselves are not equal.**
+**This demonstrates Multiset Equality, even though the polynomials themselves are not equal.**
 
-> **Note**: Encoding vectors as polynomials is a mathematical technique to represent information about the elements and their positions. You don’t need to dive too deeply into this—it’s enough to understand that simply comparing polynomials is insufficient for proving multiset equivalence.
+> **Note**: Encoding vectors as polynomials is a mathematical technique to represent information about the elements and their positions. You don’t need to dive too deeply into this—it’s enough to understand that simply comparing polynomials is insufficient for proving Multiset Equality.
 
+</br>
 
 ### How to Prove Multiset Equality
 
-To prove multiset equivalence (unordered and with duplicates allowed), we essentially need to show that **both vectors contain the same elements with the same multiplicities**.
+To prove Multiset Equality (unordered and with duplicates allowed), we essentially need to show that **both vectors contain the same elements with the same multiplicities**.
 
 The most straightforward approach is **to iterate over each element in one vector and verify that it exists in the other vector**. However, this method has limitations:
 
 - It fails if the vectors contain duplicate elements.  
   For example, $\{1, 1, 2\}$ is a multiset that is not equal to $\{1, 2, 2\}$ or $\{2, 1\}$.
 
+</br>
 
 ### A Direct Multiset Method Using Products
 
@@ -357,6 +364,7 @@ One another simple solution is to compute the product of all elements in both ve
 - **Vector elements must be prime numbers.**  
   For example, $3 \times 6 = 9 \times 2$, but $\{3, 6\} \neq \{9, 2\}$.
 
+</br>
 
 ### A Better Approach: Compare the Root Sets of Polynomials
 
@@ -378,17 +386,19 @@ $$
 \prod_{i}(X - q_i) = q(X) = p(X) = \prod_{i}(X - p_i).
 $$
 
-#### Step 3: Multiset Equivalence
+#### Step 3: Multiset Equality
 
-If $p(X) = q(X)$, the two vectors are equivalent as multisets:
+If $p(X) = q(X)$, the two vectors satisfy Multiset Equality:
 
 $$
 \{q_i\} =_{\text{multiset}} \{p_i\}.
 $$
 
+</br>
+
 ### Why This Works
 
-Let’s break down why this method proves multiset equivalence:
+Let’s break down why this method proves Multiset Equality:
 
 1. **Step 1: Generate Polynomials**  
    Each vector is represented as a polynomial, with its elements encoded as the roots of the polynomial. This step encodes the elements without considering their order.
@@ -397,11 +407,14 @@ Let’s break down why this method proves multiset equivalence:
    The root set of each polynomial is determined. This step captures the relationship between the elements of the vector and their multiplicities, while ignoring their order.
 
 3. **Step 3: Compare Root Sets**  
-   If the root sets are identical, the vectors are equivalent as multisets.
+   If the root sets are identical, the vectors satisfy Multiset Equality.
+
+
+</br>
 
 ### Using the Schwartz-Zippel Lemma for Verification
 
-To further verify multiset equivalence, we use the **Schwartz-Zippel Lemma**. Here’s the steps:
+To further verify Multiset Equality, we use the **Schwartz-Zippel Lemma**. Here’s the steps:
 
 1. The Verifier sends the Prover a random number $\gamma$.
 
@@ -417,22 +430,26 @@ $$
 > - $p_i$ and $q_i$ are elements of the two vectors.
 > - $i \in [n]$ means $i$ iterates from 1 to $n$.
 
+</br>
+
 ### Key Points
 
 1. The equation $\prod_{i}(X - q_i) = q(X) = p(X) = \prod_{i}(X - p_i)$ ensures that the polynomials $p(X)$ and $q(X)$ are equivalent.
 
 2. The equation $\prod_{{i \in [n]}} (\gamma - p_i) = \prod_{{i \in [n]}} (\gamma - q_i)$ ensures that the polynomials evaluate to the same value for the random challenge $\gamma$.  
-   If this holds, it confirms that the two vectors are equivalent multisets.
+   If this holds, it confirms that the two vectors are Multiset Equality.
 
+
+</br>
 
 ### Addressing Copy Constraints
 
-At this stage, we have demonstrated that the root sets $\{p_i\}$ and $\{q_i\}$ are equivalent multisets. This provides a foundation for verifying **copy constraints**. Specifically, we can ensure that the zero sets (roots) of $W(X)$ and $W'(X)$ contain the same elements.
+At this stage, we have demonstrated that the root sets $\{p_i\}$ and $\{q_i\}$ are Multiset Equality. This provides a foundation for verifying **copy constraints**. Specifically, we can ensure that the zero sets (roots) of $W(X)$ and $W'(X)$ contain the same elements.
 
 However, this alone is insufficient because it does not capture the exact correspondence between the roots, i.e., whether $p_i$ and $q_j$ align according to a predefined rule. To address this, we refer back to the **Grand Product Argument** to extend the proof and validate that the roots follow a specific permutation rule $\sigma$.
 
 > **Notes**:
-> Two separate product equations can also be combined into a single equation:
+> Two separate products can also be combined into a single product:
 
 > $$
 > \prod_{{i \in [n]}} (\gamma - p_i) = \prod_{{i \in [n]}} (\gamma - q_i)
@@ -458,8 +475,7 @@ However, this alone is insufficient because it does not capture the exact corres
 > \prod_{{i \in [n]}} \frac{(\gamma - p_i)}{(\gamma - q_i)} = 1
 > $$
 
-> This approach leverages the inherent properties of products to reduce the verification to a single equation.
-
+> This approach leverages the inherent properties of products to reduce the verification to a single product.
 
 Now that we understand how to prove **Multiset Equality**, the next step is to construct the **Permutation Argument**. This will allow us to implement the **Copy Constraints** required by the Plonk protocol.
 
@@ -467,11 +483,11 @@ Now that we understand how to prove **Multiset Equality**, the next step is to c
 
 ## From Multiset Equality to Permutation Argument
 
-In general, constructing a **permutation argument** requires more than just proving multiset equality, as it cannot capture the exact ordering of elements. A **grand product** or **product check** is necessary to verify the specific permutation relationship between elements.
+In general, constructing a **permutation argument** requires more than just proving Multiset Equality, as it cannot capture the exact ordering of elements. A **grand product** or **product check** is necessary to verify the specific permutation relationship between elements.
 
 ### Step 1: Multiset Equality
 
-As discussed earlier, the first step is to verify multiset equality between the roots $p_i$ and $q_i$, ensuring:
+As discussed earlier, the first step is to verify Multiset Equality between the roots $p_i$ and $q_i$, ensuring:
 
 $$
 \prod_{{i \in [n]}} \frac{(\gamma - p_i)}{(\gamma - q_i)} = 1
@@ -492,19 +508,19 @@ Next, we need to verify whether $q_i = p(\sigma(i))$, i.e., whether the elements
    where $p(X)$ and $q(X)$ are the polynomials interpolated from $p_i$ and $q_i$, and $\sigma(X)$ is the permutation polynomial.
 
 3. **Product Check**:  
-   To ensure the correctness of the permutation, a **grand product check** is used: 
+   To ensure the correctness of the permutation, a **grand product check** is used:
+
 $$
 \prod_{{i \in [n]}} (\gamma - p_i) = \prod_{{i \in [n]}} (\gamma - q_{\sigma(i)})
 $$
 
+The above product equation inherently captures both **Multiset Equality** and the **specific permutation relationship**.
 
-### Combining Multiset Equality and Permutation
-
-The above product equation inherently captures both **multiset equality** and the **specific permutation relationship**.
-
-However, **in some cases, multiset equality can be considered a special case of a permutation argument**. This is because multiset equality verifies that two sets are related by some permutation, without identifying the exact permutation. In other words, multiset equality ensures that the two vectors $\{p_i\}$ and $\{q_i\}$ are related by an **unknown permutation**.
+However, **in some cases, Multiset Equality can be considered a special case of Permutation Argument**. This is because Multiset Equality verifies that two sets are related by some permutation, without identifying the exact permutation. In other words, Multiset Equality ensures that the two vectors $\{p_i\}$ and $\{q_i\}$ are related by an **unknown permutation**.
 
 What we need, however, is a proof and verification of a **known permutation relationship**. This requires proving a **specific, publicly defined reordering** of an ordered vector, such as locally cyclic shifts within subsets.
+
+</br>
 
 ### Example: Odd-Even Permutation
 
@@ -557,25 +573,24 @@ a'_i=(a_i, i) & b'_i=({b}_i, \sigma(i)) \\
 \end{array}
 $$
 
-If vectors $\vec{a}$ and $\vec{b}$ satisfy the permutation $\sigma$, then the merged vectors $\vec{a}'$ and $\vec{b}'$ will satisfy multiset equality.
+If vectors $\vec{a}$ and $\vec{b}$ satisfy the permutation $\sigma$, then the merged vectors $\vec{a}'$ and $\vec{b}'$ will satisfy Multiset Equality.
 
 <img src="/ZKP-PLONK/images/Permutation/permutation-1.png" width="40%" />
 
 
-### Why Odd-Even Permutation Can Be Reduced to Multiset Equality
+**Why Odd-Even Permutation Can Be Reduced to Multiset Equality** is because Odd-even Permutation can leverage Multiset Equality, as their defining property—swapping odd and even positions—depends only on the **content of the set**, not the exact details of the permutation:
 
-Odd-even swaps can leverage multiset equality because their defining property—swapping odd and even positions—depends only on the **content of the set**, not the exact details of the permutation:
-
-- If we only care about whether the permutation is an odd-even swap, we focus on the **consistency of the elements’ content** (i.e., multiset equality).
+- If we only care about whether the permutation is an Odd-even Permutation, we focus on the **consistency of the elements’ content** (i.e., Multiset Equality).
 - The odd-even nature describes a high-level property of the permutation without requiring verification of specific arrangements.
-- Thus, verifying an odd-even permutation only requires proving multiset equality, without checking specific positional relationships.
+- Thus, verifying an odd-even permutation only requires proving Multiset Equality, without checking specific positional relationships.
 
+</br>
 
 ### Handling Pairs with Folding
 
 One issue arises when the table’s left and right columns consist of **pairs** (e.g., $(a_i, i)$ and $(b_i, \sigma{(i)})$ ). Such pairs cannot directly serve as roots of a univariate polynomial.
 
-To resolve this, we apply a **folding technique**: ask the Verifier for a random scalar $\beta$ and combine the pairs into single values:
+To resolve this, we apply a **folding technique**: ask the Verifier for a random number $\beta$ and combine the pairs into single values:
 
 $$
 \begin{array}{|c|c|}
@@ -593,24 +608,14 @@ $$
 
 This transforms the paired elements into single values, enabling polynomial encoding.
 
-
-### Why Randomization Is Necessary
-
 > Note:
-> In the third step of the diagram, addition is used because it is the simplest operation. However, could other algorithms (such as multiplication, division, or more complex functions) be used instead? The answer is no, and the key reason is security.
+> In the third step of the diagram above, addition is used because it is the simplest operation. However, could other algorithms (such as multiplication, division, or more complex functions) be used instead? The answer is no, and the key reason is security.
 > To ensure security, randomness must be introduced. If randomness is not included, the Prover could potentially construct a fraudulent proof that bypasses verification. By introducing a random challenge $\beta$ from the Verifier, the Prover is forced to encode the pair $(a_i, i)$ securely into a single value as: $\vec{a}'_ i = a_{i} + \beta \cdot {i}$.
 
-1. **Randomness Ensures Security**:  
-   Without randomness, the Prover could construct a proof that bypasses verification. By introducing the random challenge $\beta$, the Prover must fold the data as $\vec{a}'_i = a_i + \beta \cdot i$.
 
-2. **Prevents Malicious Behavior**:  
-   The Verifier’s random challenge $\beta$ ensures that the Prover cannot exploit deterministic patterns to generate invalid proofs.
+After folding, the Prover can now prove that $\vec{a}'$ and $\vec{b}'$ satisfy Multiset Equality, thereby proving that the original vectors $\vec{a}$ and $\vec{b}$ follow the specific permutation relationship.
 
-
-### Verifying Permutation with Multiset Equality
-
-After folding, the Prover can now prove that $\vec{a}'$ and $\vec{b}'$ satisfy multiset equality, thereby proving that the original vectors $\vec{a}$ and $\vec{b}$ follow the specific permutation relationship.
-
+</br>
 
 ## Complete Permutation Protocol
 
@@ -618,7 +623,7 @@ Let’s describe the entire permutation protocol step by step:
 
 ### Assumptions
 
-- Let $\mathbb{F}_p$ be a finite field containing a multiplicative subgroup $H = \{1, \omega, \omega^2, \ldots, \omega^{N-1}\}$, where $\omega$ is a generator of $H$.
+- Let $\mathbb{F}_p$ be a finite field containing a multiplicative subgroup $H = \\{1, \omega, \omega^2, \ldots, \omega^{N-1}\\}$, where $\omega$ is a generator of $H$.
 
 ### Inputs
 
@@ -627,30 +632,42 @@ Let’s describe the entire permutation protocol step by step:
 2. **Secret Inputs**:  
    Two vectors $\vec{a}$ and $\vec{b}$ of length $N$.
 
-### Protocol Steps
-
-1. **Setup**:  
+### Preprocessing
    Prover and Verifier construct polynomials $[id(X)]$ and $[\sigma(X)]$, where:
    - $id(X)$ encodes the sequence $(0, 1, 2, \ldots, N-1)$.
    - $\sigma(X)$ encodes the permutation $\{\sigma(0), \sigma(1), \ldots, \sigma(N-1)\}$.
 
-2. **Prover Sends Polynomials**:  
+> Note: `[]` presents commit, means the purpose of $[id(X)]$ and $[\sigma(X)]$ are to allow Prover and Verifier can verify without disclosing the complete polynomial.
+
+### Protocol Steps
+
+1. **Prover Constructs and sends Polynomials**:  
    The Prover computes and sends $[a(X)]$ and $[b(X)]$, encoding $\vec{a}$ and $\vec{b}$.
 
-3. **Verifier’s Challenges**:  
+2. **Verifier’s Challenges**:  
    The Verifier sends random challenges $\beta \leftarrow \mathbb{F}_p$ and $\gamma \leftarrow \mathbb{F}_p$.
 
-4. **Prover Computes Grand Product**:  
-   The Prover constructs an auxiliary vector $\vec{z}$ and polynomial $z(X)$, satisfying: 
+3. **Prover Computes Grand Product**:  
+   - The Prover constructs an auxiliary vector $\vec{z}$:
 
-   $z_0 = 1, \quad z_{i+1} = \prod_{i=0}^{N-1} \frac{a_i + \beta \cdot i + \gamma}{b_i + \beta \cdot \sigma(i) + \gamma}$
+   $z_0 = 1, \qquad z_{i+1} = \prod_{i=0}^{N-1} \frac{a_i + \beta \cdot i + \gamma}{b_i + \beta \cdot \sigma(i) + \gamma}$
 
-   The Prover sends $[z(X)]$.
+   and polynomial $z(X)$ satisfies: 
 
-5. **Verifier’s Final Challenge**:  
+$$
+L_0(X)\cdot(z(X)-1)=0, \qquad \forall X\in H 
+$$
+
+$$
+\frac{z(\omega\cdot X)}{z(X)} = \frac{a(X)+\beta\cdot id(X) + \gamma}{b(X)+\beta\cdot \sigma(X) + \gamma}, \qquad \forall X\in H 
+$$
+
+   - Then, the Prover sends $[z(X)]$.
+
+4. **Verifier’s Final Challenge**:  
    The Verifier sends another random challenge $\alpha \leftarrow \mathbb{F}_p$.
 
-6. **Prover Constructs Final Polynomials**:  
+5. **Prover Constructs Final Polynomials**:  
    The Prover constructs:
    - A combined constraint polynomial $f(X)$.
    - A quotient polynomial $h(X)$, satisfying: 
@@ -661,16 +678,29 @@ Let’s describe the entire permutation protocol step by step:
 
    The Prover sends $[h(X)]$.
 
-7. **Verifier Checks Consistency**:  
+6. **Verifier Checks Consistency**:  
    The Verifier queries evaluations of $[a(X)]$, $[b(X)]$, $[z(X)]$, $[h(X)]$, $[\sigma(X)]$, and $[id(X)]$ at specific points and checks the following equation:
+
+   - Query the values ​​of the three polynomials $[a(X)],[b(X)],[h(X)]$ at $X=\zeta$ to get $a(\zeta)$, $b(\zeta)$, $h(\zeta)$;
+   - Query the values ​​of the two positions $X=\zeta and X=\omega\cdot\zeta$ at $[z(X)]$ to get $z(\zeta)$ and $z(\omega\cdot\zeta)$;
+   - Send the evaluation query $X=\zeta$ to the two polynomials $[\sigma(X)]$ and $[id(X)]$ to get $id(\zeta)$ and $\sigma(\zeta)$;
+   - Verifier calculates the value of Vanishing Polynomial $z_H(\zeta)$ at $X=\zeta$ by itself, and compares it with Lagrange Polynomial $L_0(X)$ at $X=\zeta$ takes the value $L_0(\zeta)$
+
+7. **Final verification**:
+   According to values of polynomials, verify the constraint below:
 
    $L_0(\zeta)(z(\zeta)-1) + \alpha\cdot (z(\omega\cdot \zeta)(b(\zeta)+\beta\cdot\sigma(\zeta)+\gamma)-z(\zeta)(a(\zeta)+\beta\cdot id(\zeta)+\gamma)) \overset{?}{=} h(\zeta)z_H(\zeta)$
 
----
+> Note: this constraint we had already known initially.
+
+<img src="/ZKP-PLONK/images/Permutation/framework.png" width="100%" />
+
+
+</br>
 
 ## Summary
 
-The core of the permutation argument lies in **multiset equality verification**, which is extended by incorporating **grand product checks** to handle specific mappings and permutations. By introducing random challenges, the protocol ensures correctness and prevents malicious behavior. This forms the foundation for implementing **copy constraints** in the Plonk protocol.
+The core of the Permutation Argument lies in **Multiset Equality Argument**, which is extended by incorporating **Grand Product Argument** to handle specific mappings and permutations. By introducing random challenges, the protocol ensures correctness and prevents malicious behavior. This forms the foundation for implementing **copy constraints** in the Plonk protocol.
 
 ## References:
 
