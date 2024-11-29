@@ -74,7 +74,7 @@ $$
 <img src="/ZKP-PLONK/images/polish「4」/案例电路.png" width="40%" />
 
 
-回忆比如针对上面电路的 $W$ 表格：
+回忆针对上面电路的 $W$ 表格：
 
 $$
 \begin{array}{c|c|c|c|}
@@ -254,7 +254,7 @@ $$
 q_L(X)w_a(X)+q_R(X)w_b(X)+ q_M(X)w_a(X)w_b(X) - q_O(X)w_c(X)+q_C(X)+\phi(X) = 0
 $$
 
-我们还可以通过修改拷贝约束的方式引入公开参数。
+我们还可以通过修改拷贝约束的方式引入公开参数，这里可以忽略，目前用得很少。
 
 >[!TODO]
 
@@ -382,8 +382,7 @@ Verifier 还要自行计算
 
 $$
 \begin{split}
-& \bar{q}_L\bar{w}_a+\bar{q}_R\bar{w}_b+ \bar{q}_M\bar{w}_a\bar{w}_b - \bar{q}_O\bar{w}_c+\bar{q}_C + \phi(\zeta)  \\
-& \qquad \qquad + \alpha(\bar{z}\_{(\omega\cdot\zeta)}\cdot \bar{g}\_{(\zeta)}-\bar{z}\_{(\zeta)}\cdot \bar{f}\_{(\zeta)})+ \alpha^2(L_0(\zeta)\cdot(\bar{z}\_{(\zeta)}-1))\overset{?}{=}\bar{t}\cdot z_H(\zeta)
+& \bar{q}_L\bar{w}_a+\bar{q}_R\bar{w}_b+ \bar{q}_M\bar{w}_a\bar{w}_b - \bar{q}_O\bar{w}_c+\bar{q}_C + \phi(\zeta) + \alpha(\bar{z}\_{(\omega\cdot\zeta)}\cdot \bar{g}\_{(\zeta)}-\bar{z}\_{(\zeta)}\cdot \bar{f}\_{(\zeta)})+ \alpha^2(L_0(\zeta)\cdot(\bar{z}\_{(\zeta)}-1))\overset{?}{=}\bar{t}\cdot z_H(\zeta)
 \end{split}
 $$
 
