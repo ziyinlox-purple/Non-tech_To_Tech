@@ -103,7 +103,7 @@ $$
 > 注： 
 > - $G$, $H$ 分别是椭圆曲线群 $\mathbb{G}$, $\mathbb{H}$ 中的生成元， $\chi$ 的幂次通过与生成元 $G$ 和 $H$ 做倍点运算嵌入到椭圆曲线点中（例如 $G_2=\chi^2 G$ 就是在椭圆曲线群上，重复对生成元 $G$ 相加 $\chi^2$ 次，最后得到椭圆曲线上的一个点）；
 > - 除了 $G\in\mathbb{G}$ 和 $H \in\mathbb{H}$，这两个群之间还存在双线性映射 $e: \mathbb{G}\times\mathbb{H}\to \mathbb{G}_T$($\mathbb{G}_T$ 也是一个椭圆曲线群)。我们后面会用这个固定的映射去验证整除性，因此，双线性映射有一些性质需要知道：
->   1. 双线性性：对于所有 $G \in \mathbb{G}, H \in \mathbb{H}$，以及整数 $a,b$，有： $e(a \cdot G, H)= a \cdot e(G, H)$ 以及 $e(G, b \cdot H)= b \cdot e(G, H)$ 。
+>   1. 双线性性：对于所有 $G \in \mathbb{G}, H \in \mathbb{H}$，以及整数 $a,b$，有： $e(a \cdot G, b \cdot H)= e(G, H)^{ab}$ 。
 >   2. 非退化性：如果 $G$ 是 $\mathbb{G}$ 的生成元且 $H$ 是 $\mathbb{H}$ 的生成元，那么 $e(G,H)$ 是 $\mathbb{G}_T$ 的生成元。
 >   3. 此外， 映射 $e$ 可以在多项式时间内计算。
 
