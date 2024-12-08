@@ -182,7 +182,7 @@ $$
 
 > **为什么上面进行验证的等式要「 $\cdot 1$」？**
 
-> 这是因为用到了 pairing（双线性映射，也就是 $e:\mathbb{G}\times\mathbb{H} \to \mathbb{G}_T$。其中， $\mathbb{G}$ 和 $\mathbb{H}$ 是定义域上的两个群，$\mathbb{G}_T$ 是映射的值域群。pairing 的特性要求输入必须成对出现，例如 $(a, b)$， $(c, d)$，而不能单独输入某一项。
+> 这是因为用到了 pairing（双线性映射，也就是 $e:\mathbb{G}\times\mathbb{H} \to \mathbb{G}_T$。其中， $\mathbb{G}$ 和 $\mathbb{H}$ 是定义域上的两个群， $\mathbb{G}_T$ 是映射的值域群。pairing 的特性要求输入必须成对出现，例如 $(a, b)$， $(c, d)$，而不能单独输入某一项。
 
 > 首先来看等式右边， $q(X)$ 的承诺是 $C_q = [q(\chi)]_ 1$， $(X - \zeta)$ 则通过 SRS 的结构化支持，可以表示为 $[\chi - \zeta]_ 1$，即 $(\chi - \zeta) \cdot G$，因此: $q(X) \cdot (X-\zeta) \quad \rightarrow \quad C_q \cdot [\chi-\zeta]_1$。
 
@@ -579,10 +579,12 @@ Prover 原本需要打开三个多项式( $f(X)$, $g(X)$, $h(X)$ )，但如果�
 
 第二轮：Prover 计算并发送三个 Opening， $\bar{f_1}=f_1(\zeta)$， $\bar{h}_1=h_1(\zeta)$， $\bar{h}_2=h_2(\zeta)$，
 
-> 1. 为什么 Prover 选择发送 $\bar{f}_1 = f_1(\zeta)$、 $\bar{h}_1 = h_1(\zeta)$、 $\bar{h}_2 = h_2(\zeta)$，而不是其他值，原因如下：
+> 为什么 Prover 选择发送 $\bar{f}_1 = f_1(\zeta)$、 $\bar{h}_1 = h_1(\zeta)$、 $\bar{h}_2 = h_2(\zeta)$，而不是其他值，原因如下：
+
 > $h_1(X)h_2(X)h_3(X)$ 是一个乘积项，只需知道其中两个值（如 $\bar{h}_1$ 和 $\bar{h}_2$），Verifier 可以通过等式倒推出 $\bar{h}_3$ 的值： $\bar{h}_3 = \frac{已知的乘积值}{h_1 \cdot h_2}$
 
 > 是否可以选择发送其他值（如 $\bar{h}_3$）？
+
 > 可以，发送 $\bar{h}_1$ 或 $\bar{h}_3$ 是等效的，但选择不同的值可能会导致 Verifier 的验证逻辑更加复杂和不优雅。如果 Prover 改为发送 $\bar{f}_1$、 $\bar{h}_2$ 和 $\bar{h}_3$，理论上仍然可以完成验证，但有以下问题：
 > - 验证逻辑复杂度增加：Verifier 在验证 $h_1(X)h_2(X)h_3(X)$ 时，需要从 $\bar{h}_2$ 和 $\bar{h}_3$ 倒推出 $\bar{h}_1$，这可能使验证逻辑稍显不自然。
 > - 可能引入冗余通信：如果 Prover 不发送 $\bar{h}_1$，Verifier 可能需要重新构造 $\bar{h}_1$ 的验证路径，在实际协议中增加额外的计算和验证步骤。
