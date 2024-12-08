@@ -112,7 +112,7 @@ After initialization, these structured bases are indistinguishable from random b
 
 The SRS is divided into two parts during Setup Phase:
 
-1. **$\mathbb{G}$ Basis Vectors**: $\mathsf{srs}_{\mathbb{G}} = (G_0, G_1, G_2, \dots, G_{d-1})$ where $G_i = \chi^i G$  ( $i$ is the index, $0 \leq i < d$ ).
+1. **$\mathbb{G}$ Basis Vectors**: $\mathsf{srs}_ {\mathbb{G}} = (G_0, G_1, G_2, \dots, G_{d-1})$ where $G_i = \chi^i G$  ( $i$ is the index, $0 \leq i < d$ ).
 2. **$\mathbb{H}$ Basis Vectors**: $\mathsf{srs}_{\mathbb{H}} = (H_0, H_1)$ where $H_i = \chi^i H$ (used for auxiliary verification, such as divisibility checks).
 
 When using Groth's notation:
@@ -125,8 +125,8 @@ The KZG10 system parameters (SRS) can be expressed as:
 
 $$
 \begin{align}
-\mathsf{srs} & = ([1]_1, [\chi]_1, [\chi^2]_1, [\chi^3]_1, \dots, [\chi^{d-1}]_1, [1]_2, [\chi]_2) \\
-& = (1 \cdot G, \chi \cdot G, \chi^2 \cdot G, \dots, \chi^{d-1} \cdot G, 1 \cdot H, \chi \cdot H)
+\mathsf{srs} & = ({\color{Violet} [} {\color{Red} 1} {\color{Violet} ]_1} ,{\color{Violet} [} {\color{Red} \chi} {\color{Violet} ]_1} ,{\color{Violet} [} {\color{Red} \chi^2} {\color{Violet} ]_1} ,{\color{Violet} [} {\color{Red} \chi^3} {\color{Violet} ]_1} ,\ldots,{\color{Violet} [} {\color{Red} \chi^{d-1}} {\color{Violet} ]_1} ,{\color{Green} [}{\color{Brown}  1} {\color{Green} ]_2} ,{\color{Green} [} {\color{Brown} \chi} {\color{Green} ]_2} )\\ 
+& = ({\color{Red} 1} \cdot {\color{Violet} G}  ,{\color{Red} \chi} {\color{Violet} G} ,{\color{Red} {\chi^2}} {\color{Violet} G} ,{\color{Red} {\chi^3}}{\color{Violet} G}  ,\ldots ,{\color{Red} {\chi^{d-1}}}{\color{Violet} G}  ,{\color{Brown} 1} \cdot {\color{Green} H}  , {\color{Brown} \chi}{\color{Green} H})
 \end{align}
 $$
 
@@ -186,7 +186,7 @@ Next, let us construct an **Open proof** for $f(\zeta) = y$. The core objective 
 
 #### 1. Decomposing Using the Polynomial Remainder Theorem
 
-Based on the **Polynomial Remainder Theorem** (which states that if a polynomial $f(X)$ is divided by a linear polynomial $(X-\zeta)$, the remainder is $f(\zeta)$), we can decompose the polynomial $f(X)$ as follows:
+Based on the **Polynomial Remainder Theorem** (which states that if a polynomial $f(X)$ is divided by a linear polynomial $(X-\zeta)$, the remainder is $f(\zeta)$ ), we can decompose the polynomial $f(X)$ as follows:
 
 $$
 f(X) = q(X) \cdot (X-\zeta) + y
@@ -230,7 +230,7 @@ $$
 
 > Let us first examine the right-hand side of the equation. The commitment $C_q = [q(\chi)]_1$, and $(X-\zeta)$ can be expressed using the structured reference string (SRS) as $[\chi-\zeta]_1$, i.e., $(\chi-\zeta) \cdot G$. Therefore: $q(X) \cdot (X-\zeta) \quad \rightarrow \quad C_q \cdot [\chi-\zeta]_1$
 
-> As mentioned earlier, pairing requires inputs to appear in pairs. The left-hand side must also have two components. The $\cdot 1$ on the left-hand side can be seen as a placeholder. Here, $1$ corresponds to a group element on the elliptic curve, denoted as $[1]_1$, which is the generator $g$ of the group $\mathbb{G}$. Thus: $(f(X)-y) \cdot 1 \quad \leftrightarrow \quad C_{f(X)} - y \cdot g$
+> As mentioned earlier, pairing requires inputs to appear in pairs. The left-hand side must also have two components. The $\cdot 1$ on the left-hand side can be seen as a placeholder. Here, $1$ corresponds to a group element on the elliptic curve, denoted as $[1]_ 1$, which is the generator $g$ of the group $\mathbb{G}$. Thus: $(f(X)-y) \cdot 1 \quad \leftrightarrow \quad C_{f(X)} - y \cdot g$
 
 > In summary:
 > - The $\cdot 1$ ensures that the input components and their positions are aligned, so pairing can correctly apply the bilinear map.
@@ -239,10 +239,10 @@ $$
 
 #### 3. Divisibility Verification Using Pairing
 
-The commitment $C_{f(X)}$ is an element in group $\mathbb{G}$. Through the additive homomorphic property of commitments and the bilinear map $e: \mathbb{G} \times \mathbb{H} \to \mathbb{G}_T$, the **Verifier** can validate the divisibility condition in $\mathbb{G}_T$ as follows:
+The commitment $C_{f(X)}$ is an element in group $\mathbb{G}$. Through the additive homomorphic property of commitments and the bilinear map $e: \mathbb{G} \times \mathbb{H} \to \mathbb{G}_T$, the Verifier can validate the divisibility condition in $\mathbb{G}_T$ as follows:
 
 $$
-e(C_{f(X)} - y[1]_1, [1]_2) \overset{?}{=} e(C_{q(X)}, [\chi]_2 - \zeta [1]_2)
+e(C_{f(X)} - y[1]_ 1, [1]_ 2) \overset{?}{=} e(C_{q(X)}, [\chi]_ 2 - \zeta [1]_ 2)
 $$
 
 > Explanation of the Above Equation
@@ -275,7 +275,7 @@ $$
 f(\chi) - y \overset{?}{=} q(\chi) \cdot (\chi - \zeta)
 $$
 
-<img src="/ZKP-PLONK/images/polish「5」/pairing relationship.png" width="40%" />
+<img src="/ZKP-PLONK/images/polish「5」/pairing relationship.png" width="60%" />
 
 
 #### 4. Reducing Computation Complexity
@@ -308,7 +308,7 @@ f(X) + \zeta \cdot q(X) - y = q(X) \cdot X
 $$
 
 $$
-e(C_{f(X)} + \zeta \cdot C_{q(X)} - y \cdot [1]_1, [1]_2) \overset{?}{=} e(C_{q(X)}, [\chi]_2)
+e(C_{f(X)} + \zeta \cdot C_{q(X)} - y \cdot [1]_ 1, [1]_ 2) \overset{?}{=} e(C_{q(X)}, [\chi]_ 2)
 $$
 
 By analyzing the relationship between the transformed equation and the pairing-based verification process above, we can revisit and clarify some key concepts:
@@ -323,26 +323,22 @@ By analyzing the relationship between the transformed equation and the pairing-b
    These are the polynomial commitments for $f(X)$ and $q(X)$, respectively. Typically, these commitments are generated using schemes like Pedersen commitments, which map polynomials to specific points on an elliptic curve.
 
 3. **Left Side of the Pairing Equation**:  
-   In the pairing equation:
+   In the pairing equation: $e(C_{f(X)} + \zeta \cdot C_{q(X)} - y \cdot [1]_ 1, [1]_ 2)$,
 
-   $$
-   e(C_{f(X)} + \zeta \cdot C_{q(X)} - y \cdot [1]_1, [1]_2),
-   $$
-
-   the term $C_{f(X)} + \zeta \cdot C_{q(X)} - y \cdot [1]_1$ represents the commitment to the polynomial $f(X) + \zeta \cdot q(X) - y$. Meanwhile, the right-hand side $e(C_{q(X)}, [\chi]_2)$ corresponds to the commitment $q(X)$ paired with the structured reference string (SRS) element $[\chi]_2$.
+   the term $C_{f(X)} + \zeta \cdot C_{q(X)} - y \cdot [1]_ 1$ represents the commitment to the polynomial $f(X) + \zeta \cdot q(X) - y$. Meanwhile, the right-hand side $e(C_{q(X)}, [\chi]_ 2)$ corresponds to the commitment $q(X)$ paired with the structured reference string (SRS) element $[\chi]_2$.
 
 > **Notes:**
 
-> If you look closely at the left side of the pairing equation, you'll notice that only $y$ is explicitly multiplied by $[1]_1$ (the generator of group $\mathbb{G}$). You might wonder why $C_{f(X)}$ and $\zeta \cdot C_{q(X)}$ do not also include $\cdot 1$. Here's why:
+> If you look closely at the left side of the pairing equation, you'll notice that only $y$ is explicitly multiplied by $[1]_ 1$ (the generator of group $\mathbb{G}$ ). You might wonder why $C_{f(X)}$ and $\zeta \cdot C_{q(X)}$ do not also include $\cdot 1$. Here's why:
 > 1. **What is $y \cdot [1]_1$?**  
-   The term $y \cdot [1]_1$ represents the constant $y$ embedded into the elliptic curve group $\mathbb{G}$. In pairing-based proof systems, constants like $y$ cannot be directly added to other elliptic curve elements (such as $C_{f(X)}$ or $C_{q(X)}$). Before addition, the constant $y$ must first be mapped into the curve by multiplying it with the generator $[1]_1$.
+   The term $y \cdot [1]_ 1$ represents the constant $y$ embedded into the elliptic curve group $\mathbb{G}$. In pairing-based proof systems, constants like $y$ cannot be directly added to other elliptic curve elements (such as $C_{f(X)}$ or $C_{q(X)}$). Before addition, the constant $y$ must first be mapped into the curve by multiplying it with the generator $[1]_1$.
 
 > 2. **Why Don’t $C_{f(X)}$ and $\zeta \cdot C_{q(X)}$ Require This?**  
-   - $C_{f(X)}$ and $\zeta \cdot C_{q(X)}$ are already elements in the group $\mathbb{G}$ because they are commitments derived from polynomials $f(X)$ and $q(X)$. These commitments are elliptic curve points and naturally reside in the same group.
-   - Constants like $y$, however, are scalar values (not curve points) and need to be explicitly converted into elliptic curve elements by multiplying with $[1]_1$.
+>   - $C_{f(X)}$ and $\zeta \cdot C_{q(X)}$ are already elements in the group $\mathbb{G}$ because they are commitments derived from polynomials $f(X)$ and $q(X)$. These commitments are elliptic curve points and naturally reside in the same group.
+>   - Constants like $y$, however, are scalar values (not curve points) and need to be explicitly converted into elliptic curve elements by multiplying with $[1]_1$.
 
-3. **Ensuring Compatibility**:  
-   In order to perform addition within the group $\mathbb{G}$, all terms must be in the same domain. Thus, $y$ must be multiplied by $[1]_1$ to become a group element, ensuring it can be added to $C_{f(X)}$ and $\zeta \cdot C_{q(X)}$.
+> 3. **Ensuring Compatibility**:  
+   In order to perform addition within the group $\mathbb{G}$, all terms must be in the same domain. Thus, $y$ must be multiplied by $[1]_ 1$ to become a group element, ensuring it can be added to $C_{f(X)}$ and $\zeta \cdot C_{q(X)}$.
 
 
 If you understand the reasoning behind the left side of the equation, you should have no difficulty grasping the right side as well. This concludes the explanation of the pairing operation in this context!
@@ -353,7 +349,7 @@ If you understand the reasoning behind the left side of the equation, you should
 
 In a larger security protocol, when multiple polynomial commitments are used simultaneously, their Open operations can be aggregated into a single process. This is achieved by combining multiple polynomials into a single larger polynomial, allowing batch verification of the original polynomials by opening just one point.
 
-Suppose we have multiple polynomials, $f_1(X)$ and $f_2(X)$. The **Prover** wants to prove to the **Verifier** that $f_1(\zeta) = y_1$ and $f_2(\zeta) = y_2$. These can be expressed as:
+Suppose we have multiple polynomials, $f_1(X)$ and $f_2(X)$. The Prover wants to prove to the Verifier that $f_1(\zeta) = y_1$ and $f_2(\zeta) = y_2$. These can be expressed as:
 
 $$
 \begin{array}{l}
@@ -362,7 +358,7 @@ f_2(X) = q_2(X) \cdot (X-\zeta) + y_2
 \end{array}
 $$
 
-Using a random scalar $\nu$, the **Prover** can combine $f_1(X)$ and $f_2(X)$ into a single temporary polynomial $g(X)$:
+Using a random scalar $\nu$, the Prover can combine $f_1(X)$ and $f_2(X)$ into a single temporary polynomial $g(X)$:
 
 $$
 g(X) = f_1(X) + \nu \cdot f_2(X)
@@ -398,7 +394,7 @@ $$
 
 ### **Proof Aggregation Using Homomorphism**
 
-Now, suppose the proof of $f_1(X)$ at $X = \zeta$ is $\pi_1$, and the proof of $f_2(X)$ at $X = \zeta$ is $\pi_2$. By leveraging the additive homomorphism of the group, the **Prover** can obtain the commitment to the quotient polynomial $q(X)$:
+Now, suppose the proof of $f_1(X)$ at $X = \zeta$ is $\pi_1$, and the proof of $f_2(X)$ at $X = \zeta$ is $\pi_2$. By leveraging the additive homomorphism of the group, the Prover can obtain the commitment to the quotient polynomial $q(X)$:
 
 $$
 [q(\chi)]_1 = \pi = \pi_1 + \nu \cdot \pi_2
@@ -412,7 +408,7 @@ $$
 C_g = C_1 + \nu \ast C_2
 $$
 
-> **Why use the operator $\ast$?** In practice, this is equivalent to $C_g = C_1 + \nu \cdot C_2$. The $\ast$ symbol is used to represent the computational implementation of the operation (e.g., a scalar multiplication function in code), rather than the mathematical scalar multiplication symbol.
+> **Why use the operator $\ast$ ?** In practice, this is equivalent to $C_g = C_1 + \nu \cdot C_2$. The $\ast$ symbol is used to represent the computational implementation of the operation (e.g., a scalar multiplication function in code), rather than the mathematical scalar multiplication symbol.
 
 The folded commitment $C_g$ can then be used to verify the evaluations of multiple polynomials at a single point:
 
@@ -430,7 +426,7 @@ $$
 
 This greatly simplifies the verification process.
 
-<img src="/ZKP-PLONK/images/polish「5」/pairing2.png" width="70%" />
+<img src="/ZKP-PLONK/images/polish「5」/pairing2.png" width="50%" />
 
 </br>
 
@@ -480,35 +476,29 @@ $$
 $$
 
 1. **Low-degree case**:  
-   Suppose $\deg(\Delta_1) = 2$ and $\deg(\Delta_2) = 3$, then $\max(\deg(\Delta_1), \deg(\Delta_2)) = 3$. For a finite field of size $p = 2^{256}$, the forgery probability is:
-
-   $$
-   \frac{3}{2^{256}}
-   $$
+   Suppose $\deg(\Delta_1) = 2$ and $\deg(\Delta_2) = 3$, then $\max(\deg(\Delta_1), \deg(\Delta_2)) = 3$. For a finite field of size $p = 2^{256}$, the forgery probability is: $\frac{3}{2^{256}}$
 
    This is an extremely small probability, making forgery nearly impossible.
 
 2. **High-degree case**:  
-   Suppose $\deg(\Delta_1) = 100$ and $\deg(\Delta_2) = 200$, then $\max(\deg(\Delta_1), \deg(\Delta_2)) = 200$. For a finite field of size $p = 2^{256}$, the forgery probability is:
-
-   $$
-   \frac{200}{2^{256}}
-   $$
-
+   Suppose $\deg(\Delta_1) = 100$ and $\deg(\Delta_2) = 200$, then $\max(\deg(\Delta_1), \deg(\Delta_2)) = 200$. For a finite field of size $p = 2^{256}$, the forgery probability is: $\frac{200}{2^{256}}$. 
+   
    While the probability increases slightly, it is still negligible.
 
 </br>
 
 ### Conclusion
 
-The probability of a randomly chosen $\nu$ leading to a successful forgery is extremely small, effectively zero. Moreover, introducing the random scalar $\nu$ only involves a linear combination of existing commitments, which does not leak any information about the secret $\chi$. Instead, $\nu$ ensures the uniqueness of the random linear combination, preventing the **Prover** from forging polynomials. As a result, the aggregation of polynomials does not compromise the binding property of the commitments, as guaranteed by the Schwartz-Zippel Lemma.
+The probability of a randomly chosen $\nu$ leading to a successful forgery is extremely small, effectively zero. Moreover, introducing the random scalar $\nu$ only involves a linear combination of existing commitments, which does not leak any information about the secret $\chi$. 
+
+Instead, $\nu$ ensures the uniqueness of the random linear combination, preventing the Prover from forging polynomials. As a result, the aggregation of polynomials does not compromise the binding property of the commitments, as guaranteed by the Schwartz-Zippel Lemma.
 
 </br>
 
 ### Protocol:
 
 **Public Inputs:**  
-- $C_{f_1} = [f_1(\chi)]_1$, $C_{f_2} = [f_2(\chi)]_1$, $\zeta$, $y_1$, $y_2$
+- $C_{f_1} = [f_1(\chi)]_ 1$, $C_{f_2} = [f_2(\chi)]_ 1$, $\zeta$, $y_1$, $y_2$
 
 **Private Inputs:**  
 - $f_1(X)$, $f_2(X)$
@@ -528,108 +518,89 @@ $$
 e(C_g - [y_g]_1, [1]_2) \overset{?}{=} e(\pi, [\chi-\zeta]_2)
 $$
 
-Let’s demonstrate the execution of this protocol with the following specific values:
+**Let’s demonstrate the execution of this protocol with the following specific values:**
 
 Private Inputs(known only to the Prover):  
 - $f_1(X) = 3X + 1$
 - $f_2(X) = 5X + 6$
 
 Public Inputs:
-- $C_{f_1} = [f_1(\chi)]_1 = [3]_1$ (commitment to $f_1(\chi)$)
-- $C_{f_2} = [f_2(\chi)]_1 = [5]_1$ (commitment to $f_2(\chi)$)
+- $C_{f_1} = [f_1(\chi)]_1 = [3]_1$ (commitment to $f_1(\chi)$ )
+- $C_{f_2} = [f_2(\chi)]_1 = [5]_1$ (commitment to $f_2(\chi)$ )
 - $\zeta = 2$ (evaluation point)
 - $y_1 = f_1(\zeta) = 7$ (value of $f_1$ at $\zeta$)
 - $y_2 = f_2(\zeta) = 16$ (value of $f_2$ at $\zeta$)
 
 Proof Goal: Prove that $f_1(\zeta) = y_1$ and $f_2(\zeta) = y_2$.
 
-Step 1: Verifier issues a challenge scalar $\nu$.  
+(1) Step 1: Verifier issues a challenge scalar $\nu$. 
 Assume that $\nu = 4$.
 
-Step 2: Prover computes $q(X)$ and sends $\pi = [q(\chi)]_1$.
+(2) Step 2: Prover computes $q(X)$ and sends $\pi = [q(\chi)]_1$.
 
 1. **Compute $q_1(X)$ and $q_2(X)$:**
 
    - For $q_1(X)$:  
-     $$q_1(X) = \frac{f_1(X) - y_1}{X - \zeta}$$  
-     Substitute $f_1(X) = 3X + 1$ and $y_1 = 7$:  
-     $$q_1(X) = \frac{(3X + 1) - 7}{X - 2} = \frac{3X - 6}{X - 2} = 3$$  
+     $q_1(X) = \frac{f_1(X) - y_1}{X - \zeta}$, Substitute $f_1(X) = 3X + 1$ and $y_1 = 7$: $q_1(X) = \frac{(3X + 1) - 7}{X - 2} = \frac{3X - 6}{X - 2} = 3$  
 
    - For $q_2(X)$:  
-     $$q_2(X) = \frac{f_2(X) - y_2}{X - \zeta}$$  
-     Substitute $f_2(X) = 5X + 6$ and $y_2 = 16$:  
-     $$q_2(X) = \frac{(5X + 6) - 16}{X - 2} = \frac{5X - 10}{X - 2} = 5$$  
+     $q_2(X) = \frac{f_2(X) - y_2}{X - \zeta}$, Substitute $f_2(X) = 5X + 6$ and $y_2 = 16$: $q_2(X) = \frac{(5X + 6) - 16}{X - 2} = \frac{5X - 10}{X - 2} = 5$  
 
 2. **Combine $q_1(X)$ and $q_2(X)$ using $\nu$:**
 
-   Compute $q(X) = q_1(X) + \nu \cdot q_2(X)$:  
-   $$q(X) = 3 + 4 \cdot 5 = 3 + 20 = 23$$
+   Compute $q(X) = q_1(X) + \nu \cdot q_2(X)$: $q(X) = 3 + 4 \cdot 5 = 3 + 20 = 23$
 
 3. **Compute $\pi$:**
 
-   Since $q(X)$ is constant ($q(X) = 23$),  
-   $$\pi = [q(\chi)]_1 = [23]_1$$
+   Since $q(X)$ is constant ($q(X) = 23$), $\pi = [q(\chi)]_1 = [23]_1$, Prover sends $\pi = [23]_1$ to the Verifier.
 
-   Prover sends $\pi = [23]_1$ to the Verifier.
+(3) Step 3: Verifier performs the verification.
 
-Step 3: Verifier performs the verification.
+The Verifier checks the pairing equation: $e(C_g - [y_g]_1, [1]_2) \overset{?}{=} e(\pi, [\chi-\zeta]_2)$
 
-The Verifier checks the pairing equation:
-
-$$
-e(C_g - [y_g]_1, [1]_2) \overset{?}{=} e(\pi, [\chi-\zeta]_2)
-$$
-
-1. **Compute $C_g$ (commitment to the combined polynomial) and $y_g$ (combined evaluation value):**
+1. Compute $C_g$ (commitment to the combined polynomial) and $y_g$ (combined evaluation value):
 
    - $C_g = C_{f_1} + \nu \cdot C_{f_2}$:  
-     Substitute $C_{f_1} = [3]_1$, $C_{f_2} = [5]_1$, and $\nu = 4$:  
-     $$C_g = [3]_1 + 4 \cdot [5]_1 = [3 + 20]_1 = [23]_1$$
+     Substitute $C_{f_1} = [3]_ 1$, $C_{f_2} = [5]_ 1$, and $\nu = 4$: $C_g = [3]_1 + 4 \cdot [5]_1 = [3 + 20]_1 = [23]_1$.
 
    - $y_g = y_1 + \nu \cdot y_2$:  
-     Substitute $y_1 = 7$, $y_2 = 16$, and $\nu = 4$:  
-     $$y_g = 7 + 4 \cdot 16 = 7 + 64 = 71$$
+     Substitute $y_1 = 7$, $y_2 = 16$, and $\nu = 4$: $y_g = 7 + 4 \cdot 16 = 7 + 64 = 71$.
 
-2. **Verify the left-hand pairing:**
+2. Verify the left-hand pairing:
 
    Compute $C_g - [y_g]_1$:  
-   Substitute $C_g = [23]_1$ and $[y_g]_1 = [71]_1$:  
-   $$C_g - [y_g]_1 = [23]_1 - [71]_1 = [-48]_1$$
+   Substitute $C_g = [23]_1$ and $[y_g]_1 = [71]_1$: $C_g - [y_g]_1 = [23]_1 - [71]_1 = [-48]_1$
 
-   Pair with $[1]_2$:  
-   $$e(C_g - [y_g]_1, [1]_2) = e([-48]_1, [1]_2)$$
+   Pair with $[1]_2$: $e(C_g - [y_g]_1, [1]_2) = e([-48]_1, [1]_2)$
 
 3. **Verify the right-hand pairing:**
 
    Compute $e(\pi, [\chi - \zeta]_2)$:  
-   Substitute $\pi = [23]_1$ and $\chi - \zeta = \chi - 2$:  
-   $$e(\pi, [\chi - \zeta]_2) = e([23]_1, [\chi - 2]_2)$$
+   Substitute $\pi = [23]_1$ and $\chi - \zeta = \chi - 2$: $e(\pi, [\chi - \zeta]_2) = e([23]_1, [\chi - 2]_2)$
 
 4. **Check if both pairings are equal:**
 
-   If:
-
-   $$e([-48]_1, [1]_2) = e([23]_1, [\chi - 2]_2),$$
+   If: $e([-48]_1, [1]_2) = e([23]_1, [\chi - 2]_2)$,
 
    then the proof is valid, confirming that $f_1(\zeta) = y_1$ and $f_2(\zeta) = y_2$.
 
-> Notes:
+> **Notes:**
 
 > In the above explanation, there are some important distinctions in terminology:
-> - **$q(\chi)$**: Represents the evaluation proof.
-> - **KZG Commitment of $q(X)$**: Refers to $[q(\chi)]_1$, which is the commitment to the polynomial $q(X)$.
+> - $q(\chi)$: Represents the evaluation proof.
+> - KZG Commitment of $q(X)$: Refers to $[q(\chi)]_1$, which is the commitment to the polynomial $q(X)$.
 
 </br>
 
 ## Polynomial Constraints and Linearization
 
-Assume that $[f(\chi)]_1$, $[g(\chi)]_1$, and $[h(\chi)]_1$ are the KZG10 commitments of the polynomials $f(X)$, $g(X)$, and $h(X)$, respectively. If the **Verifier** wants to verify the following polynomial constraint:
+Assume that $[f(\chi)]_1$, $[g(\chi)]_1$, and $[h(\chi)]_1$ are the KZG10 commitments of the polynomials $f(X)$, $g(X)$, and $h(X)$, respectively. If the Verifier wants to verify the following polynomial constraint:
 
 $$
 f(X) + g(X) \overset{?}{=} h(X)
 $$
 
-the **Verifier** simply adds the commitments of the first two polynomials and checks whether the result equals $[h(\chi)]_1$:
+the Verifier simply adds the commitments of the first two polynomials and checks whether the result equals $[h(\chi)]_1$:
 
 $$
 [f(\chi)]_1 + [g(\chi)]_1 \overset{?}{=} [h(\chi)]_1
@@ -654,9 +625,9 @@ Do you fully understand the above equation? Let’s emphasize its underlying rul
 
 The result of $e([f(\chi)]_1, [g(\chi)]_2)$ will always lie in group $\mathbb{G}_T$.
 
-However, if the **Verifier** only has the commitment $[g(\chi)]_1$ in group $\mathbb{G}$ (instead of $[g(\chi)]_2$ in group $\mathbb{H}$), then the **Verifier** cannot use the bilinear pairing operation to verify the multiplication constraint.
+However, if the Verifier only has the commitment $[g(\chi)]_1$ in group $\mathbb{G}$ (instead of $[g(\chi)]_2$ in group $\mathbb{H}$), then the Verifier cannot use the bilinear pairing operation to verify the multiplication constraint.
 
-**An alternative method** is to open all three polynomials at the same challenge point $X = \zeta$ and verify whether the opened values satisfy the multiplication constraint. Suppose the **Verifier** wants to verify:
+**An alternative method** is to open all three polynomials at the same challenge point $X = \zeta$ and verify whether the opened values satisfy the multiplication constraint. Suppose the Verifier wants to verify:
 
 $$
 f(X) \cdot g(X) \overset{?}{=} h(X).
@@ -716,35 +687,31 @@ $$
 #### Step 2: Prover’s Operations
 
 1. **Open $f(X)$ at $X = \zeta$:**
-   - The **Prover** sends $\bar{f} = f(\zeta)$ and the corresponding evaluation proof $\pi_{f(\zeta)}$ to the **Verifier**.
+   - The Prover sends $\bar{f} = f(\zeta)$ and the corresponding evaluation proof $\pi_{f(\zeta)}$ to the Verifier.
 
 2. **Construct the Commitment for $L(X)$:**
    - Compute $[L(\chi)]_1 = \bar{f} \cdot [g(\chi)]_1 - [h(\chi)]_1$.  
-   - The **Prover** does not need to send this commitment to the **Verifier**, as the **Verifier** can construct it directly using the additive homomorphism of KZG10 commitments after receiving $\bar{f}$.
+   - The Prover does not need to send this commitment to the Verifier, as the Verifier can construct it directly using the additive homomorphism of KZG10 commitments after receiving $\bar{f}$.
 
 3. **Open $L(X)$ at $X = \zeta$:**
-   - The **Prover** proves that $L(\zeta) = 0$ by providing an evaluation proof $\pi_{L(\zeta)}$.
+   - The Prover proves that $L(\zeta) = 0$ by providing an evaluation proof $\pi_{L(\zeta)}$.
 
 
 #### Step 3: Verifier’s Operations
 
 1. **Verify the evaluation proof for $f(\zeta)$:**
 
-   $$ 
-   e([f(\chi)]_1 - \bar{f} \cdot [1]_1, [1]_2) \overset{?}{=} e(\pi_{f(\zeta)}, [\chi - \zeta]_2).
-   $$
+   $e([f(\chi)]_ 1 - \bar{f} \cdot [1]_ 1, [1]_ 2) \overset{?}{=} e(\pi_{f(\zeta)}, [\chi - \zeta]_ 2)$
 
 2. **Verify that $L(X)$ evaluates to zero:**
 
-   $$
-   e([L(\chi)]_1, [1]_2) \overset{?}{=} e(\pi_{L(\zeta)}, [\chi - \zeta]_2).
-   $$
+   $e([L(\chi)]_ 1, [1]_ 2) \overset{?}{=} e(\pi_{L(\zeta)}, [\chi - \zeta]_ 2)$
 
    If the verification passes, this implies that $f(X) \cdot g(X) = h(X)$.
 
 ### Advantages of the Optimized Protocol
 
-Originally, the **Prover** needed to open three polynomials ($f(X)$, $g(X)$, and $h(X)$). With this optimization, only two openings are required:
+Originally, the Prover needed to open three polynomials ($f(X)$, $g(X)$, and $h(X)$ ). With this optimization, only two openings are required:
 
 1. The first opening is $\bar{f}$, which provides the value $f(\zeta)$ to ensure accurate subsequent calculations.
 2. The second opening is $L(X)$, with the value $L(\zeta) = 0$, which indirectly verifies the multiplication constraint.
@@ -766,16 +733,13 @@ Using aggregation techniques and leveraging the homomorphic properties of KZG10 
 ### Protocol:
 
 **Public Inputs:**  
-$C_{f_1} = [f_1(\chi)]_1$, $C_{f_2} = [f_2(\chi)]_1$, $C_{h_1} = [h_1(\chi)]_1$, $C_{h_2} = [h_2(\chi)]_1$, $C_{h_3} = [h_3(\chi)]_1$, $C_g = [g(\chi)]_1$
+$C_{f_1} = [f_1(\chi)]_ 1$, $C_{f_2} = [f_2(\chi)]_ 1$, $C_{h_1} = [h_1(\chi)]_ 1$, $C_{h_2} = [h_2(\chi)]_ 1$, $C_{h_3} = [h_3(\chi)]_ 1$, $C_g = [g(\chi)]_ 1$
 
 **Private Inputs:**  
 $f_1(X)$, $f_2(X)$, $h_1(X)$, $h_2(X)$, $h_3(X)$, $g(X)$
 
 **Proof Goal:**  
-To prove:  
-$$
-f_1(X)f_2(X) + h_1(X)h_2(X)h_3(X) + g(X) = 0
-$$
+To prove: $f_1(X)f_2(X) + h_1(X)h_2(X)h_3(X) + g(X) = 0$
 
 #### Step 1: Verifier sends $X = \zeta$.
 
@@ -793,7 +757,7 @@ $\bar{f}_1 = f_1(\zeta)$, $\bar{h}_1 = h_1(\zeta)$, $\bar{h}_2 = h_2(\zeta)$.
 > - Increased verification complexity: The Verifier would need to deduce $\bar{h}_1$ from $\bar{h}_2$ and $\bar{h}_3$, making the process less intuitive.  
 > - Potential redundant communication: If $\bar{h}_1$ is not sent, the Verifier might need to reconstruct it, adding extra computation and verification steps to the protocol.
 
-> **Conclusion:** Choose the simplest approach. :)
+> **Conclusion:** Choose the simplest approach. :)))
 
 
 #### Step 3: Verifier sends a random scalar $\nu$.
