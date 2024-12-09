@@ -421,3 +421,5 @@ $$
 $$
 
 If the equation holds, the proof is accepted; otherwise, it is rejected.
+
+<img src="img/framework.png" width="100%" />

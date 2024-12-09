@@ -215,7 +215,7 @@ $$
 
 This ensures $r_N = r_0 = 1$. The rightmost column now represents a **cyclic shift** of $\vec{r}$. Additionally, every row in the table satisfies the multiplicative relationship!
 
-<img src="img/circle.pngg" width="40%" />
+<img src="img/circle.png" width="40%" />
 
 </br>
 
@@ -693,7 +693,6 @@ $$
 
 > Note: this constraint we had already known initially.
 
-<img src="img/framework.png" width="100%" />
 
 
 </br>
