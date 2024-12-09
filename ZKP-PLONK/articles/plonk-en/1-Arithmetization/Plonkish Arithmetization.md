@@ -64,7 +64,7 @@ $$
 > `Left input + Right input + Multiplication term + Constant − Output = 0`,
 > which helps simplify the construction and verification process of the proof system. For example, when constructing the constraint matrix $Q$, the coefficients of the selector vectors can be easily determined by this fixed arithmetic relationship, without adjusting signs. You can refer to the matrix $Q\in\mathbb{F}^{n\times5}$ below for an example.
 
-<img src="img/Plonkish Arithmetization/Q.png" width="35%" />
+<img src="img/Q.png" width="35%" />
 
 In the fixed constraint equation above:
 
@@ -139,7 +139,7 @@ By now, you should be able to apply what you’ve learned. We recommend you foll
 
 Now, let’s organize the data into a table, just like we did with $W$. We represent the constraint matrix $Q\in\mathbb{F}^{n\times5}$ (where $n$ is the number of arithmetic gates, corresponding to rows, and 5 represents the number of selector polynomials, corresponding to columns).
 
-<img src="img/Plonkish Arithmetization/Q.png" width="35%" />
+<img src="img/Q.png" width="35%" />
 
 Here’s the key part!
 
