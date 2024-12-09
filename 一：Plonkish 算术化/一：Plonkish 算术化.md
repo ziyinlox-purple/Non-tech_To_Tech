@@ -9,7 +9,7 @@ Plonkish 算术化是 Plonk 证明系统特有的算术化方法，在 Plonkish 
 # Plonkish算术门
 首先，我们先了解电路的基本构成，看看静态下的空白电路有哪些组成部分，我们可以看下图的案例电路：
 
-<img src="relative/ZKP-PLONK/articles/plonk-zh/一：Plonkish 算术化/img/案例电路.png" alt="案例电路" width="40%">
+<img src="img/案例电路.png" alt="案例电路" width="40%">
 
 上图由几部分构成：算术门、左右输入引脚、输出引脚和引线。
 
@@ -63,7 +63,8 @@ $$
 > `左输入+右输入+乘法项+常数−输出=0`；
 > 这样有助于简化证明系统的构建和验证过程。例如在后续构建约束矩阵 $Q$ 的时候会出现选择器向量的系数选择问题，办法其实很简单，只需要对应固定等式的算术关系即可，不需要进行符号的变换，可参考下图矩阵 $Q\in\mathbb{F}^{n\times5}$。
 
-<img src="/ZKP-PLONK/images/polish「1」/矩阵%20Q.png" width="35%" />
+
+<img src="img/矩阵%20Q.png" width="40%">
 
 我们把上图的 $Q$ 矩阵和固定的约束等式
 
@@ -91,7 +92,7 @@ $$
 
 为了验证电路，我们需要根据已有的约束关系（也就是矩阵 $W$）来构建约束矩阵 $Q$ 
 
-<img src="/ZKP-PLONK/images/polish「1」/Q+W.png" width="75%" />
+<img src="img/Q+W.png" width="75%" />
 
 
 **矩阵 $Q$ 具体是怎么构建来的呢？**
@@ -155,7 +156,7 @@ $$
 现在把上面的这些数据整理起来，像 $W$ 一样，我们还是用表格的形式来表示约束矩阵 $Q\in\mathbb{F}^{n\times5}$（ $n$ 算术门的数量，对应为行；5 表示选择器多项式的数量，即 $q_L$ ··· $q_O$ 对应为列）。
 
 
-<img src="/ZKP-PLONK/images/polish「1」/矩阵%20Q.png" width="35%" />
+<img src="/img/矩阵%20Q.png" width="35%" />
 
 
 重点来了！
@@ -295,24 +296,24 @@ $$
 比较下面两个电路，它们能构成的 $Q$ 矩阵完全相同，但它们的电路结构却完全不同。
 
 
-<img src="/ZKP-PLONK/images/polish「1」/电路比较.png" width="70%" />
+<img src="img/电路比较.png" width="70%" />
 
 两个电路的区别在于： $x_5, x_6$ 是否被接入了 `#1` 号门。
 
-<img src="/ZKP-PLONK/images/polish「1」/W.png" width="30%" />
+<img src="img/W.png" width="30%" />
 
 结合上面的电路比较图和矩阵 $W$ 一起来看，如果让 Prover 直接把电路赋值填入矩阵 $W$ 中，一个「诚实的」Prover 会在 $w_{(a,1)}$ （表示 $i=1$ 行， $w_a$ 列，也就是在第一行第一列）和 $w_{(c,2)}$（表示 $i=2$ 行， $w_c$ 列，也就是在第二行第三列） 的两个位置填上相同的值；而一个「恶意的」Prover 完全可以填上不同的值。如果恶意的 Prover 在 $w_{(b,1)}$ 和 $w_{(c,3)}$ 也填入不同的值，那么实际上 Prover 证明的是上图右边的电路，而非是和 Verifier 共识过的电路(左边)，「恶意的」Prover 填写不同值的情况：
 
-<img src="/ZKP-PLONK/images/polish「1」/恶意prover 的情况.png" width="30%" />
+<img src="img/恶意prover 的情况.png" width="30%" />
 
 
 为了防止「恶意的」 Prover 作恶，我们需要增加新的约束，强制要求右边电路图中 $x_5=x_7$ 和 $x_6=x_8$，见下图。这等价于我们要求 Prover 把同一个变量填入表格多个位置时，必须填入相等的值。
 
-<img src="/ZKP-PLONK/images/polish「1」/新的约束关系.png" width="30%" />
+<img src="img/新的约束关系.png" width="30%" />
 
 这就需要一类新的约束——「拷贝约束」，即 Copy Constraint。Plonk 采用「置换证明」保证矩阵 $W$ 中多个位置上的值满足拷贝关系。我们继续用上面这个电路图的案例来说明其基本思路：
 
-<img src="/ZKP-PLONK/images/polish「1」/W.png" width="30%" />
+<img src="img/W.png" width="30%" />
 
 设想我们把 $W$ 表格中的所有位置索引排成一个向量：
 
@@ -348,7 +349,7 @@ $$
 
 **那么如何描述电路赋值表格中的交换操作呢？** 我们只需要记录 $\vec{\sigma}$ 即可，记录了变量在交换操作后的映射关系，也就是说，原先位置的变量经过交换后，被映射到新的位置。通过这种方式，我们只需要记录这个置换向量 ${\vec\sigma}$，就可以描述整个交换操作的结果。 $\vec{\sigma}$ 可以写成表格的形式，从而理解它的位置变化：
 
-<img src="/ZKP-PLONK/images/polish「1」/位置矩阵T.png" width="30%" />
+<img src="img/位置矩阵T.png" width="30%" />
 
 > 让我们来说明一下上面这个位置矩阵表示的意思：  
 
@@ -374,7 +375,7 @@ $$
 
 根据下面这张图，可以感受位置的变化：
 
-<img src="/ZKP-PLONK/images/polish「1」/position change.png" width="100%" />
+<img src="img/position change.png" width="100%" />
 
 
 > 总结一下，位置矩阵 $T$ 反应了映射关系，具体的位置变化可以看上图。通过这种方法，你不需要记录每一个变量具体如何交换，而是只需记录交换后的映射关系，这样就能简化对复杂交换操作的描述。
@@ -383,7 +384,7 @@ $$
 
 前面说到只构建约束矩阵 $Q$ 和 赋值矩阵 $W$ 是不足以精确描述「图：电路1」的例子电路，但是现在加上表示位置变换的 $\vec\sigma$，也就是位置矩阵 $T$，它们可以共同描述和验证电路。整个电路可以描述为 $(Q,\sigma)$ ，电路的赋值为 $W$
 
-<img src="/ZKP-PLONK/images/polish「1」/矩阵.png" width="80%" />
+<img src="img/矩阵.png" width="80%" />
 
 
 $$
