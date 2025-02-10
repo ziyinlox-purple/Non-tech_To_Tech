@@ -1,0 +1,161 @@
+**因为做完了 Walrus 官方相关的任务，顺便再捋一遍（以下引用部分都是代码，知乎排版的兼容很不好）。**首先有一个概览，成功部署 Walrus 需要安装：
+
+1. Sui Wallet
+2. Sui CLI
+3. Rust 语言
+4. Walrus 客户端: 用于和 SUI Testnet 交互，比如领取 Testnet WAL、交易、存储数据等
+5. site-builder - Walrus：用于 **创建、发布和管理 Walrus Sites（去中心化网站）**
+
+相关的安装页面是：
+
+1. 安装 Sui: https://docs.sui.io/guides/developer/getting-started/sui-install
+2. 安装 Walrus & Walrus site: https://docs.walrus.site/walrus-sites/tutorial-install.html
+
+## **纯新手大概的思路是：**
+
+1. 通过 Sui Wallet 生成一个 Sui 钱包地址，然后申领测试币，确保地址里有 SUI 测试币（这里用到 Sui Wallet + Sui CLI），因为后面兑换成 Warlus 上的测试币 WAL 时，以及用来支付上链的手续费；
+2. 之后就可以通过 Walrus 创建你的第一个 Walrus Site。
+3. 现在 Walrus 官方也有一个 learning task，推荐可以去完成: https://github.com/hoh-zone/lets-walrus
+
+## **一、 安装 Walrus 客户端：**
+
+根据你自己的电脑去选择相应在终端中输入的内容，Walrus 目前提供 **预编译的二进制文件**，支持 macOS（Intel 和 Apple Silicon）、Ubuntu 和 Windows。
+
+> SYSTEM= # 设置你的系统类型，例如：ubuntu-x86_64, macos-arm64, windows-x86_64.exe
+curl -L https://storage.googleapis.com/mysten-walrus-binaries/walrus-testnet-latest-$SYSTEM -o walrus
+chmod +x walrus  # 赋予执行权限
+> 
+
+**移动 Walrus 可执行文件**
+
+为了方便使用，你可以把 walrus 移动到 /usr/local/bin/ 或 $HOME/.local/bin/：
+
+> mv walrus /usr/local/bin/
+> 
+
+**walrus --help**
+
+> walrus --help
+> 
+
+如果这个正常的话你可以看到 Walrus CLI 的帮助信息。
+
+### **配置 Walrus**
+
+Walrus 需要一个 **Sui 钱包** 进行交互，你可以在终端内用 walrus generate-sui-wallet **自动生成 Sui 钱包**（如果没有的话）。或者也可以使用已有的钱包 walrus --wallet ~/.sui/sui_config/client.yaml ，然后，确保配置 client_config.yaml：
+
+> curl -L https://raw.githubusercontent.com/MystenLabs/walrus-docs/main/docs/client_config.yaml \
+    -o ~/.config/walrus/client_config.yaml
+> 
+
+## **二、site-builder - Walrus(要先装 Rust)**
+
+**选择你的操作系统，运行以下命令**:
+
+> SYSTEM= # 选择你的系统：ubuntu-x86_64, macos-arm64, macos-x86_64, windows-x86_64.exe curl -L <https://storage.googleapis.com/mysten-walrus-binaries/site-builder-testnet-latest-$SYSTEM> -o site-builder chmod +x site-builder
+> 
+
+**移动 site-builder 并测试**
+
+为了方便使用，你可以把 site-builder 移动到 /usr/local/bin/ 或 $HOME/.local/bin/：
+
+> mv site-builder /usr/local/bin/
+> 
+
+如果你使用的是 Windows，可以把 site-builder.exe 移动到 C:\\Windows\\System32\\。
+
+然后，运行以下命令检查安装是否成功：
+
+> site-builder --help
+> 
+
+✅ **如果看到 site-builder 的帮助信息，说明安装成功！**
+
+### **配置 site-builder**
+
+Walrus Sites 需要一个 **配置文件 sites-config.yaml**，你可以下载默认配置：
+
+> curl -L <https://raw.githubusercontent.com/MystenLabs/walrus-sites/refs/heads/testnet/sites-config.yaml> -o ~/.config/walrus/sites-config.yaml
+> 
+
+如果你希望使用自定义配置文件，可以在运行 site-builder 时指定：
+
+> site-builder --config /path/to/sites-config.yaml publish <你的站点目录>
+> 
+
+## **三、创建第一个 Walrus.site**
+
+### **1. 准备工作**
+
+在开始之前，请确保：
+
+- **你已经安装 site-builder**（运行 site-builder --help 确保它可用）。
+- **你有一个已配置的 Sui Testnet 钱包**（运行 sui client active-address 确保你的钱包地址正确）。
+- **你已下载 sites-config.yaml 配置文件**：
+
+> mkdir -p ~/.config/walrus
+curl -L https://raw.githubusercontent.com/MystenLabs/walrus-sites/refs/heads/testnet/sites-config.yaml -o ~/.config/walrus/sites-config.yaml
+> 
+
+### **2. 创建一个网站目录**
+
+首先，创建一个新的文件夹作为你的网站目录：
+
+> mkdir my-walrus-site
+cd my-walrus-site
+> 
+
+在该目录下，你可以添加 HTML、CSS、JavaScript 文件，例如：
+
+> echo '<h1>Welcome to my Walrus Site!</h1>' > index.html
+> 
+
+### **3. 预处理目录（可选，但推荐）**
+
+**如果你要发布一个包含多个 HTML 文件的网站**，可以先运行：
+
+> site-builder list-directory .
+> 
+
+✅ 这会自动创建 index.html 文件，并确保所有文件正确链接。
+
+### **4. 发布网站到 Sui**
+
+> site-builder publish .
+> 
+
+如果你有自定义配置（sites-config.yaml），请指定：
+
+> site-builder --config ~/.config/walrus/sites-config.yaml publish .
+> 
+
+✅ 成功后，你会得到一个 site object ID，用于访问你的网站。
+
+**🚨 解决 site-builder publish 需要 -epochs 参数的问题:**
+ site-builder publish 需要一个额外的 --epochs 参数，用于指定 网站在 Sui 区块链上存续的 epoch（区块周期），如果你没有提供或者是你提供的 epoch 超过了实际的区块，它是会报错的。
+ ✅ 解决方案：可以添加 --epochs 参数，并指定 一个适当的 epoch 值（例如 100）：
+
+> site-builder publish --epochs 100 .
+Published site with object ID: 0xa1b2c3d4e5...
+> 
+
+注：这里完成后虽然你确实发布了一个网站（去中心化网站：将 0xa1b2c3d4e5 ... 替换为你的实际 Site 对象 ID），但是网站实际上可能是不能访问的，所以可以再进行下一步。
+
+### **5. 绑定 SuiNS 域名，让你的网站更易访问**
+
+需要有测试网上价值十刀的 SUI(哈哈可以去 SUI 相关的开发者群找一些老哥乞讨🥺，因为水龙头积攒太慢了)
+
+### **✅ 绑定步骤**
+
+1. 回到 SuiNS 测试网官网: https://testnet.suins.io/
+2. 进入 "Names You Own" 页面
+3. 找到你的域名(例如 mywalrus.sui)
+4. 点击三点菜单 ("...")
+5. 选择 "Link To Walrus Site"
+6. 粘贴你的 Walrus Site Object ID
+7. 确认并完成交易
+
+如果绑定成功，你现在可以使用访问（把下方的 mywalrus 换成你自己的域名名称）：
+
+> https://mywalrus.walrus.site
+>
