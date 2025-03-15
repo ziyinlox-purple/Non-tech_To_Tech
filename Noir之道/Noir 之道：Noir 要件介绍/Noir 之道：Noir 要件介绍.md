@@ -59,7 +59,7 @@ Ok，现在我们已经做好了前置的准备，安装好了 Noir 的编译工
 
 我现在在名为 `Noir_projects_files` 的这个文件夹中，创建了我名为 `first_project` 的最小项目。
 
-![它告诉你这个最小的项目文件被创建成功了，位于哪里](Noir%20%E4%B9%8B%E9%81%93%EF%BC%9ANoir%20%E8%A6%81%E4%BB%B6%E4%BB%8B%E7%BB%8D%201b6041c72ed5805fb641c76c7beb08b8/image%201.png)
+![它告诉你这个最小的项目文件被创建成功了，位于哪里](./image%201.png)
 
 它告诉你这个最小的项目文件被创建成功了，位于哪里
 
@@ -71,21 +71,21 @@ Ok，现在我们已经做好了前置的准备，安装好了 Noir 的编译工
 
 我们看看这个项目文件里实际有什么：
 
-![image.png](Noir%20%E4%B9%8B%E9%81%93%EF%BC%9ANoir%20%E8%A6%81%E4%BB%B6%E4%BB%8B%E7%BB%8D%201b6041c72ed5805fb641c76c7beb08b8/image%202.png)
+![image.png](./image%202.png)
 
 好吧，只有两个文件，这是为啥？这是因为 `Pover.toml` 文件是用来存储证明相关信息的，所以逻辑上来说我们得有证明的相关信息，才能有这个文件产生。在项目刚被建立，默认只是一个空的 Noir 项目，没有可执行的证明逻辑，自然也就没有 `Prover.toml` 这个文件了，是不是很好理解？
 
 那我们接下来要做什么呢？要做的就是进入 `src` 这个文件中，你会看到 [`main.nr`](http://main.nr) 的文件。
 
-![*ps:源目录 src 保存了你的 Noir 程序的源代码。默认情况下，其中只会生成一个 [main.nr](http://main.nr/) 文件。* ](Noir%20%E4%B9%8B%E9%81%93%EF%BC%9ANoir%20%E8%A6%81%E4%BB%B6%E4%BB%8B%E7%BB%8D%201b6041c72ed5805fb641c76c7beb08b8/image%203.png)
+![*ps:源目录 src 保存了你的 Noir 程序的源代码。默认情况下，其中只会生成一个 [main.nr](http://main.nr/) 文件。* ](./image%203.png)
 
 *ps:源目录 src 保存了你的 Noir 程序的源代码。默认情况下，其中只会生成一个 [main.nr](http://main.nr/) 文件。* 
 
 VSCode 可以提前下载一个 Noir 的插件，让我们用 VSCode 打开这个文件。
 
-![image.png](Noir%20%E4%B9%8B%E9%81%93%EF%BC%9ANoir%20%E8%A6%81%E4%BB%B6%E4%BB%8B%E7%BB%8D%201b6041c72ed5805fb641c76c7beb08b8/image%204.png)
+![image.png](./image%204.png)
 
-![最原始的 [main.nr](http://main.nr) 里的内容](Noir%20%E4%B9%8B%E9%81%93%EF%BC%9ANoir%20%E8%A6%81%E4%BB%B6%E4%BB%8B%E7%BB%8D%201b6041c72ed5805fb641c76c7beb08b8/image%205.png)
+![最原始的 [main.nr](http://main.nr) 里的内容](./image%205.png)
 
 最原始的 [main.nr](http://main.nr) 里的内容
 
@@ -119,9 +119,9 @@ VSCode 可以提前下载一个 Noir 的插件，让我们用 VSCode 打开这�
 
 我把 [`main.nr`](http://main.nr) 中的代码部分改了，如图：
 
-![image.png](Noir%20%E4%B9%8B%E9%81%93%EF%BC%9ANoir%20%E8%A6%81%E4%BB%B6%E4%BB%8B%E7%BB%8D%201b6041c72ed5805fb641c76c7beb08b8/image%206.png)
+![image.png](./image%206.png)
 
-![image.png](Noir%20%E4%B9%8B%E9%81%93%EF%BC%9ANoir%20%E8%A6%81%E4%BB%B6%E4%BB%8B%E7%BB%8D%201b6041c72ed5805fb641c76c7beb08b8/image%207.png)
+![image.png](./image%207.png)
 
 但是出现了问题，上面这个代码没法跑通，原因是 Noir 的 ZK 特性限制，不支持直接 `>`、`<` 翻译成 ZK 电路约束，需要用 `std::cmp` 或其他约束方法。
 
@@ -129,31 +129,31 @@ VSCode 可以提前下载一个 Noir 的插件，让我们用 VSCode 打开这�
 
 鉴于不是新手很友好，我决定换继续回到默认的初始代码，也就是下图。
 
-![最原始的 [main.nr](http://main.nr) 里的内容](Noir%20%E4%B9%8B%E9%81%93%EF%BC%9ANoir%20%E8%A6%81%E4%BB%B6%E4%BB%8B%E7%BB%8D%201b6041c72ed5805fb641c76c7beb08b8/image%205.png)
+![最原始的 [main.nr](http://main.nr) 里的内容](./image%205.png)
 
 最原始的 [main.nr](http://main.nr) 里的内容
 
 ok，我什么也不改，接着我在终端里输入 `nargo check` ，再输入 `nargo test` 
 
-![image.png](Noir%20%E4%B9%8B%E9%81%93%EF%BC%9ANoir%20%E8%A6%81%E4%BB%B6%E4%BB%8B%E7%BB%8D%201b6041c72ed5805fb641c76c7beb08b8/image%208.png)
+![image.png](./image%208.png)
 
 哎呀，成功了！说明这种测试方法是可以的。这个时候如果你返回上一级，会发现多了一个 `Prover.toml` 的文件，其实到这里为止，最基础的项目所必需的文件就已经满足了，让我们来打开这个 `Prove.toml` 的文件。
 
-![image.png](Noir%20%E4%B9%8B%E9%81%93%EF%BC%9ANoir%20%E8%A6%81%E4%BB%B6%E4%BB%8B%E7%BB%8D%201b6041c72ed5805fb641c76c7beb08b8/image%209.png)
+![image.png](./image%209.png)
 
-![image.png](Noir%20%E4%B9%8B%E9%81%93%EF%BC%9ANoir%20%E8%A6%81%E4%BB%B6%E4%BB%8B%E7%BB%8D%201b6041c72ed5805fb641c76c7beb08b8/image%2010.png)
+![image.png](./image%2010.png)
 
 我们可以喂两个值，因为我们定义的逻辑关系是 `x ≠ y` ，所以我随便选择 3 和 5，事实上证明最初默认的测试用例里给的值 1 和 2 其实并不影响我们实际测试，只要逻辑上的 `≠` 满足就好了。
 
-![image.png](Noir%20%E4%B9%8B%E9%81%93%EF%BC%9ANoir%20%E8%A6%81%E4%BB%B6%E4%BB%8B%E7%BB%8D%201b6041c72ed5805fb641c76c7beb08b8/image%2011.png)
+![image.png](./image%2011.png)
 
 然后我们保存退出，在终端里输入命令 `nargo execute` ，我们就可以生成 `witness`。
 
-![image.png](Noir%20%E4%B9%8B%E9%81%93%EF%BC%9ANoir%20%E8%A6%81%E4%BB%B6%E4%BB%8B%E7%BB%8D%201b6041c72ed5805fb641c76c7beb08b8/image%2012.png)
+![image.png](./image%2012.png)
 
 woho，这时候我们看一下项目文件里，就会发现了多了一个 target 的文件，其中还有一个名为 `first_project.gz` 的项目文件。
 
-![image.png](Noir%20%E4%B9%8B%E9%81%93%EF%BC%9ANoir%20%E8%A6%81%E4%BB%B6%E4%BB%8B%E7%BB%8D%201b6041c72ed5805fb641c76c7beb08b8/image%2013.png)
+![image.png](./image%2013.png)
 
 Noir 官方文档里对这里的解释是：
 
@@ -184,20 +184,20 @@ Noir 官方文档里对这里的解释是：
 
 然后我运行 `bb prove` 想生成 proof，结果出现了以下问题
 
-![image.png](Noir%20%E4%B9%8B%E9%81%93%EF%BC%9ANoir%20%E8%A6%81%E4%BB%B6%E4%BB%8B%E7%BB%8D%201b6041c72ed5805fb641c76c7beb08b8/image%2014.png)
+![image.png](./image%2014.png)
 
 也就是说我要先安装 jq，好的我下载一下。
 
-![image.png](Noir%20%E4%B9%8B%E9%81%93%EF%BC%9ANoir%20%E8%A6%81%E4%BB%B6%E4%BB%8B%E7%BB%8D%201b6041c72ed5805fb641c76c7beb08b8/image%2015.png)
+![image.png](./image%2015.png)
 
 安装完毕。
 
-![image.png](Noir%20%E4%B9%8B%E9%81%93%EF%BC%9ANoir%20%E8%A6%81%E4%BB%B6%E4%BB%8B%E7%BB%8D%201b6041c72ed5805fb641c76c7beb08b8/image%2016.png)
+![image.png](./image%2016.png)
 
 到这里我以为是我的 proof 还没生成，但实际上它已经生成啦！！我一开始用  `ls` 命令的时候它是没有显现的，可能比较文件比较小没显示，后来用  `ls -1h` 就可以了。
 
-![image.png](Noir%20%E4%B9%8B%E9%81%93%EF%BC%9ANoir%20%E8%A6%81%E4%BB%B6%E4%BB%8B%E7%BB%8D%201b6041c72ed5805fb641c76c7beb08b8/image%2017.png)
+![image.png](./image%2017.png)
 
 既然现在已经生成了 proof，那么我们就可以 verify 了。我们需要用到的命令是 `bb write_vk` 和 `bb verify` ，其中前者 从电路文件（`first_project.json`）生成验证密钥（VK），用于后续验证证明；后者验证密钥（`vk`） 和 证明文件（`proof`） 来检查证明是否有效。
 
-![image.png](Noir%20%E4%B9%8B%E9%81%93%EF%BC%9ANoir%20%E8%A6%81%E4%BB%B6%E4%BB%8B%E7%BB%8D%201b6041c72ed5805fb641c76c7beb08b8/image%2018.png)
+![image.png](./image%2018.png)
